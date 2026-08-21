@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Produtor {
+  id          String        @id @default(uuid())
+  documento   String        @unique // CPF ou CNPJ, apenas dígitos
+  nome        String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  propriedades Propriedade[]
+
+  @@map("produtores")
+}
+
+model Propriedade {
+  id                String   @id @default(uuid())
+  nome              String   // nome da fazenda
+  cidade            String
+  estado            String   // sigla, ex: SP, MG
+  areaTotal         Decimal  @db.Decimal(12, 2)
+  areaAgricultavel  Decimal  @db.Decimal(12, 2)
+  areaVegetacao     Decimal  @db.Decimal(12, 2)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  produtorId String
+  produtor   Produtor @relation(fields: [produtorId], references: [id], onDelete: Cascade)
+
+  safras Safra[]
+
+  @@map("propriedades")
+}
+
+model Safra {
+  id   String @id @default(uuid())
+  ano  Int    // ex: 2021, 2022
+
+  propriedadeId String
+  propriedade   Propriedade @relation(fields: [propriedadeId], references: [id], onDelete: Cascade)
+
+  culturas CulturaPlantada[]
+
+  @@unique([propriedadeId, ano])
+  @@map("safras")
+}
+
+model CulturaPlantada {
+  id   String @id @default(uuid())
+  nome String // ex: Soja, Milho, Café
+
+  safraId String
+  safra   Safra @relation(fields: [safraId], references: [id], onDelete: Cascade)
+
+  @@map("culturas_plantadas")
+}
