@@ -1,0 +1,4 @@
+/* Reset mínimo — o restante do estilo vem do GlobalStyle (styled-components) */
+:root {
+  color-scheme: dark;
+}
