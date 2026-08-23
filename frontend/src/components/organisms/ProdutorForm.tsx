@@ -17,16 +17,22 @@ const Campo = styled.div`
 `;
 
 interface ProdutorFormProps {
-  onSubmit: (dados: { documento: string; nome: string }) => void;
-  enviando?: boolean;
+  initialValues?: { documento: string; nome: string };
+  onSubmit: (dados: { documento: string; nome: string }) => Promise<void> | void;
+  submitLabel?: string;
 }
 
-export function ProdutorForm({ onSubmit, enviando }: ProdutorFormProps) {
-  const [documento, setDocumento] = useState('');
-  const [nome, setNome] = useState('');
+export function ProdutorForm({
+  initialValues,
+  onSubmit,
+  submitLabel = 'Cadastrar produtor',
+}: ProdutorFormProps) {
+  const [documento, setDocumento] = useState(initialValues?.documento ?? '');
+  const [nome, setNome] = useState(initialValues?.nome ?? '');
   const [erro, setErro] = useState<string | null>(null);
+  const [enviando, setEnviando] = useState(false);
 
-  function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
     if (!documento.trim() || !nome.trim()) {
@@ -35,9 +41,19 @@ export function ProdutorForm({ onSubmit, enviando }: ProdutorFormProps) {
     }
 
     setErro(null);
-    onSubmit({ documento, nome });
-    setDocumento('');
-    setNome('');
+    setEnviando(true);
+
+    try {
+      await onSubmit({ documento, nome });
+      if (!initialValues) {
+        setDocumento('');
+        setNome('');
+      }
+    } catch (erroCapturado) {
+      setErro(erroCapturado instanceof Error ? erroCapturado.message : String(erroCapturado));
+    } finally {
+      setEnviando(false);
+    }
   }
 
   return (
@@ -61,7 +77,7 @@ export function ProdutorForm({ onSubmit, enviando }: ProdutorFormProps) {
         />
       </Campo>
       <Button type="submit" disabled={enviando}>
-        {enviando ? 'Salvando...' : 'Cadastrar produtor'}
+        {enviando ? 'Salvando...' : submitLabel}
       </Button>
       {erro && <ErrorText>{erro}</ErrorText>}
     </Form>
