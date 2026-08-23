@@ -38,16 +38,22 @@ const EstadoVazio = styled.p`
   text-align: center;
 `;
 
+const Acoes = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing(2)};
+`;
+
 interface ProdutorListProps {
   produtores: Produtor[];
-  onRemover: (id: string) => void;
+  onEditar: (produtor: Produtor) => void;
+  onRemover: (produtor: Produtor) => void;
 }
 
 function areaTotalDoProdutor(produtor: Produtor): number {
   return produtor.propriedades.reduce((soma, p) => soma + p.areaTotal, 0);
 }
 
-export function ProdutorList({ produtores, onRemover }: ProdutorListProps) {
+export function ProdutorList({ produtores, onEditar, onRemover }: ProdutorListProps) {
   if (produtores.length === 0) {
     return <EstadoVazio>Nenhum produtor cadastrado ainda.</EstadoVazio>;
   }
@@ -71,9 +77,14 @@ export function ProdutorList({ produtores, onRemover }: ProdutorListProps) {
             <td>{produtor.propriedades.length}</td>
             <td>{formatarHectares(areaTotalDoProdutor(produtor))}</td>
             <td>
-              <Button $variant="danger" onClick={() => onRemover(produtor.id)}>
-                Remover
-              </Button>
+              <Acoes>
+                <Button $variant="secondary" onClick={() => onEditar(produtor)}>
+                  Editar
+                </Button>
+                <Button $variant="danger" onClick={() => onRemover(produtor)}>
+                  Remover
+                </Button>
+              </Acoes>
             </td>
           </tr>
         ))}
