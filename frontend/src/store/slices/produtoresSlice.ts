@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { produtoresService } from '../../services/produtores.service';
 import { produtoresMock } from '../../mocks/produtores.mock';
 import type { CreateProdutorPayload, Produtor } from '../../types/domain';
-import { extrairMensagemDeErro } from '../../utils/appi-error';
+import { extrairMensagemDeErro } from '../../utils/api-error';
 
 interface ProdutoresState {
   itens: Produtor[];
