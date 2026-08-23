@@ -1,17 +1,22 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import {
-  buscarProdutores,
-  criarProdutor,
-  removerProdutor,
-} from '../store/slices/produtoresSlice';
+import { buscarProdutores, criarProdutor, removerProdutor } from '../store/slices/produtoresSlice';
 import { ProdutorForm } from '../components/organisms/ProdutorForm';
 import { ProdutorList } from '../components/organisms/ProdutorList';
 import { Card, CardTitle } from '../components/atoms/Card';
+import { Button } from '../components/atoms/Button';
+import { Modal } from '../components/molecules/Modal';
+
+const Toolbar = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
 
 export function ProdutoresPage() {
   const dispatch = useAppDispatch();
   const { itens, carregando, usandoMock } = useAppSelector((state) => state.produtores);
+  const [modalAberto, setModalAberto] = useState(false);
 
   useEffect(() => {
     dispatch(buscarProdutores());
@@ -19,6 +24,7 @@ export function ProdutoresPage() {
 
   function handleCriar(dados: { documento: string; nome: string }) {
     dispatch(criarProdutor(dados));
+    setModalAberto(false);
   }
 
   function handleRemover(id: string) {
@@ -33,17 +39,22 @@ export function ProdutoresPage() {
         </p>
       )}
 
-      <Card>
-        <CardTitle>Cadastrar produtor</CardTitle>
-        <ProdutorForm onSubmit={handleCriar} />
-      </Card>
+      <Toolbar>
+        <Button onClick={() => setModalAberto(true)}>Novo produtor</Button>
+      </Toolbar>
 
       <Card>
         <CardTitle>Produtores cadastrados</CardTitle>
-        {carregando ? <p>Carregando...</p> : (
+        {carregando ? (
+          <p>Carregando...</p>
+        ) : (
           <ProdutorList produtores={itens} onRemover={handleRemover} />
         )}
       </Card>
+
+      <Modal open={modalAberto} onClose={() => setModalAberto(false)} title="Cadastrar produtor">
+        <ProdutorForm onSubmit={handleCriar} />
+      </Modal>
     </div>
   );
 }
