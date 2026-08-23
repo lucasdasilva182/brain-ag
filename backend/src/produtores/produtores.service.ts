@@ -30,6 +30,7 @@ export class ProdutoresService {
 
     const produtor = await this.prisma.produtor.create({
       data: { documento, nome: dto.nome },
+      include: { propriedades: true },
     });
 
     this.logger.log(`Produtor criado: ${produtor.id}`);
@@ -67,7 +68,11 @@ export class ProdutoresService {
     if (dto.nome) data.nome = dto.nome;
     if (dto.documento) data.documento = this.normalizarDocumento(dto.documento);
 
-    const produtor = await this.prisma.produtor.update({ where: { id }, data });
+    const produtor = await this.prisma.produtor.update({
+      where: { id },
+      data,
+      include: { propriedades: true },
+    });
     this.logger.log(`Produtor atualizado: ${id}`);
     return produtor;
   }
