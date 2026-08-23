@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { produtoresService } from '../../services/produtores.service';
 import { produtoresMock } from '../../mocks/produtores.mock';
 import type { CreateProdutorPayload, Produtor } from '../../types/domain';
+import { extrairMensagemDeErro } from '../../utils/appi-error';
 
 interface ProdutoresState {
   itens: Produtor[];
@@ -18,9 +19,6 @@ const initialState: ProdutoresState = {
   usandoMock: false,
 };
 
-// Se a API não responder (backend fora do ar), caímos nos dados
-// mockados em vez de deixar a tela vazia — bom pra demonstrar a UI
-// sem depender do backend estar rodando.
 export const buscarProdutores = createAsyncThunk(
   'produtores/buscarProdutores',
   async () => {
@@ -34,16 +32,44 @@ export const buscarProdutores = createAsyncThunk(
 
 export const criarProdutor = createAsyncThunk(
   'produtores/criarProdutor',
-  async (payload: CreateProdutorPayload) => {
-    return produtoresService.criar(payload);
+  async (payload: CreateProdutorPayload, { rejectWithValue }) => {
+    try {
+      return await produtoresService.criar(payload);
+    } catch (error) {
+      return rejectWithValue(
+        extrairMensagemDeErro(error, 'Não foi possível cadastrar o produtor'),
+      );
+    }
+  },
+);
+
+export const editarProdutor = createAsyncThunk(
+  'produtores/editarProdutor',
+  async (
+    { id, dados }: { id: string; dados: Partial<CreateProdutorPayload> },
+    { rejectWithValue },
+  ) => {
+    try {
+      return await produtoresService.atualizar(id, dados);
+    } catch (error) {
+      return rejectWithValue(
+        extrairMensagemDeErro(error, 'Não foi possível atualizar o produtor'),
+      );
+    }
   },
 );
 
 export const removerProdutor = createAsyncThunk(
   'produtores/removerProdutor',
-  async (id: string) => {
-    await produtoresService.remover(id);
-    return id;
+  async (id: string, { rejectWithValue }) => {
+    try {
+      await produtoresService.remover(id);
+      return id;
+    } catch (error) {
+      return rejectWithValue(
+        extrairMensagemDeErro(error, 'Não foi possível remover o produtor'),
+      );
+    }
   },
 );
 
@@ -67,7 +93,13 @@ const produtoresSlice = createSlice({
         state.erro = action.error.message ?? 'Erro ao buscar produtores';
       })
       .addCase(criarProdutor.fulfilled, (state, action: PayloadAction<Produtor>) => {
-        state.itens.unshift(action.payload);
+        state.itens.unshift({ ...action.payload, propriedades: action.payload.propriedades ?? [] });
+      })
+      .addCase(editarProdutor.fulfilled, (state, action: PayloadAction<Produtor>) => {
+        const index = state.itens.findIndex((p) => p.id === action.payload.id);
+        if (index !== -1) {
+          state.itens[index] = { ...state.itens[index], ...action.payload };
+        }
       })
       .addCase(removerProdutor.fulfilled, (state, action: PayloadAction<string>) => {
         state.itens = state.itens.filter((p) => p.id !== action.payload);
