@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { LayoutDashboard, Users, MapPin, Sprout } from 'lucide-react';
 import { Logo } from '../atoms/Logo';
 
@@ -22,12 +22,6 @@ const NavContent = styled.div`
   gap: ${({ theme }) => theme.spacing(6)};
 `;
 
-const Marca = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing(2)};
-`;
-
 const BurgerButton = styled.button`
   display: none;
   flex-direction: column;
@@ -46,7 +40,9 @@ const BurgerButton = styled.button`
     width: 100%;
     background: ${({ theme }) => theme.colors.text};
     border-radius: 2px;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease;
   }
 
   @media (max-width: ${BREAKPOINT_MOBILE}) {
@@ -112,9 +108,9 @@ export function NavBar() {
   return (
     <Nav>
       <NavContent>
-        <Marca>
+        <Link to="/">
           <Logo size={30} />
-        </Marca>
+        </Link>
 
         <BurgerButton
           onClick={() => setMenuAberto((aberto) => !aberto)}
