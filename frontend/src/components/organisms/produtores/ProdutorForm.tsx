@@ -2,6 +2,8 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import styled from 'styled-components';
 import { Label, Input, ErrorText } from '../../atoms/Input';
+import { DocumentoInput } from '../../atoms/DocumentoInput';
+import { aplicarMascaraDocumento } from '../../../utils/format';
 import { Button } from '../../atoms/Button';
 
 const Form = styled.form`
@@ -27,7 +29,9 @@ export function ProdutorForm({
   onSubmit,
   submitLabel = 'Cadastrar produtor',
 }: ProdutorFormProps) {
-  const [documento, setDocumento] = useState(initialValues?.documento ?? '');
+  const [documento, setDocumento] = useState(
+    aplicarMascaraDocumento(initialValues?.documento ?? ''),
+  );
   const [nome, setNome] = useState(initialValues?.nome ?? '');
   const [erro, setErro] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
@@ -65,12 +69,7 @@ export function ProdutorForm({
     <Form onSubmit={handleSubmit}>
       <Campo>
         <Label htmlFor="documento">CPF ou CNPJ</Label>
-        <Input
-          id="documento"
-          value={documento}
-          onChange={(e) => setDocumento(e.target.value)}
-          placeholder="000.000.000-00"
-        />
+        <DocumentoInput id="documento" value={documento} onChange={setDocumento} />
       </Campo>
       <Campo>
         <Label htmlFor="nome">Nome do produtor</Label>
