@@ -8,25 +8,9 @@ import { PieChartCard } from '../components/organisms/PieChartCard';
 import { DashboardSkeleton } from '../components/organisms/DashboardSkeleton';
 import { Card, CardTitle } from '../components/atoms/Card';
 import { formatarHectares } from '../utils/format';
+import { PageHeader } from '../components/molecules/PageHeader';
 
 const BREAKPOINT_TABLET = '900px';
-
-const PageHeader = styled.div`
-  margin-bottom: ${({ theme }) => theme.spacing(6)};
-`;
-
-const Titulo = styled.h1`
-  font-family: ${({ theme }) => theme.font.display};
-  font-size: 22px;
-  color: ${({ theme }) => theme.colors.text};
-  margin: 0 0 4px 0;
-`;
-
-const Subtitulo = styled.p`
-  font-size: 14px;
-  color: ${({ theme }) => theme.colors.textMuted};
-  margin: 0;
-`;
 
 const Layout = styled.div`
   display: grid;
@@ -35,7 +19,7 @@ const Layout = styled.div`
     'hero acesso'
     'cultura acesso'
     'secundarios acesso';
-  gap: ${({ theme }) => theme.spacing(6)};
+  gap: ${({ theme }) => theme.spacing(4)};
   align-items: start;
 
   @media (max-width: ${BREAKPOINT_TABLET}) {
@@ -49,12 +33,16 @@ const Layout = styled.div`
   }
 `;
 
+const Wrapper = styled.div`
+  margin-bottom: ${({ theme }) => theme.spacing(6)};
+`;
+
 const HeroCard = styled.div`
   grid-area: hero;
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.radius};
-  padding: ${({ theme }) => theme.spacing(6)};
+  padding: ${({ theme }) => theme.spacing(4)};
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -166,10 +154,9 @@ export function DashboardPage() {
 
   return (
     <div>
-      <PageHeader>
-        <Titulo>Dashboard</Titulo>
-        <Subtitulo>Visão geral da operação agrícola</Subtitulo>
-      </PageHeader>
+      <Wrapper>
+        <PageHeader titulo="Dashboard" subtitulo="Visão geral da operação agrícola" />
+      </Wrapper>
 
       <Layout>
         <HeroCard>

@@ -16,10 +16,19 @@ import { Button } from '../components/atoms/Button';
 import { Modal } from '../components/molecules/Modal';
 import { TableSkeleton } from '../components/molecules/TableSkeleton';
 import type { Produtor } from '../types/domain';
+import { PageHeader } from '../components/molecules/PageHeader';
+
+const BREAKPOINT_TABLET = '900px';
 
 const Toolbar = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+
+  @media (max-width: ${BREAKPOINT_TABLET}) {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: ${({ theme }) => theme.spacing(4)};
+  }
 `;
 
 const ConfirmText = styled.p`
@@ -83,7 +92,7 @@ export function ProdutoresPage() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       {usandoMock && (
         <p style={{ fontSize: 13, color: '#E8B34C' }}>
           Não foi possível conectar à API — exibindo dados de exemplo.
@@ -91,6 +100,7 @@ export function ProdutoresPage() {
       )}
 
       <Toolbar>
+        <PageHeader titulo="Produtores" subtitulo="Lista de produtores rurais cadastrados" />
         <Button onClick={() => setCriarAberto(true)}>
           <Plus size={16} />
           Novo produtor

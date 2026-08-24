@@ -18,10 +18,19 @@ import { Modal } from '../components/molecules/Modal';
 import { TableSkeleton } from '../components/molecules/TableSkeleton';
 import type { Propriedade } from '../types/domain';
 import type { PropriedadeFormValues } from '../components/organisms/propriedades/PropriedadeForm';
+import { PageHeader } from '../components/molecules/PageHeader';
+
+const BREAKPOINT_TABLET = '900px';
 
 const Toolbar = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+
+  @media (max-width: ${BREAKPOINT_TABLET}) {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: ${({ theme }) => theme.spacing(4)};
+  }
 `;
 
 const ConfirmText = styled.p`
@@ -135,7 +144,7 @@ export function PropriedadesPage() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       {usandoMock && (
         <p style={{ fontSize: 13, color: '#E8B34C' }}>
           Não foi possível conectar à API — exibindo dados de exemplo.
@@ -143,6 +152,10 @@ export function PropriedadesPage() {
       )}
 
       <Toolbar>
+        <PageHeader
+          titulo="Propriedades"
+          subtitulo="Fazendas cadastradas e suas informações de área"
+        />
         <Button onClick={() => setCriarAberto(true)} disabled={produtores.length === 0}>
           <Plus size={16} />
           Nova propriedade
