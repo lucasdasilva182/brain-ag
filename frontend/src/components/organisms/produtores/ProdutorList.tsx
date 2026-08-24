@@ -17,7 +17,7 @@ interface ProdutorListProps {
 }
 
 function areaTotalDoProdutor(produtor: Produtor): number {
-  return produtor.propriedades.reduce((soma, p) => soma + p.areaTotal, 0);
+  return produtor.propriedades.reduce((soma, p) => soma + Number(p.areaTotal), 0);
 }
 
 export function ProdutorList({ produtores, onEditar, onRemover }: ProdutorListProps) {
