@@ -12,8 +12,11 @@ export const Button = styled.button<{ $variant?: Variant }>`
   padding: 10px 18px;
   border-radius: ${({ theme }) => theme.radius};
   border: 1px solid transparent;
+  min-width: min-content;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
 
   ${({ theme, $variant = 'primary' }) => {
     if ($variant === 'secondary') {
