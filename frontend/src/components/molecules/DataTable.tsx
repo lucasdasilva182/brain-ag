@@ -58,6 +58,7 @@ interface DataTableProps<T> {
   emptyMessage?: string;
 }
 
+// Genérica: quem usa define colunas e dados, sem saber de domínio nenhum.
 export function DataTable<T>({
   columns,
   data,

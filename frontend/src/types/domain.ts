@@ -30,7 +30,7 @@ export interface Produtor {
   propriedades: Propriedade[];
 }
 
-// Payloads usados ao criar/editar (sem os campos gerados pelo backend)
+// Payloads de criação/edição (sem campos gerados pelo backend)
 export type CreateProdutorPayload = Pick<Produtor, 'documento' | 'nome'>;
 
 export type CreatePropriedadePayload = Pick<
@@ -44,9 +44,7 @@ export type CreatePropriedadePayload = Pick<
   | 'produtorId'
 >;
 
-// Assim como no backend (UpdatePropriedadeDto), não permitimos trocar o
-// produtorId numa atualização — se precisar mudar o dono, o correto é
-// excluir e recriar a propriedade.
+// produtorId é imutável no update (espelha UpdatePropriedadeDto do backend).
 export type UpdatePropriedadePayload = Partial<
   Omit<CreatePropriedadePayload, 'produtorId'>
 >;

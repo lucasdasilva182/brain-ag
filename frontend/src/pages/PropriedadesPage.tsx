@@ -47,8 +47,7 @@ export function PropriedadesPage() {
 
   useEffect(() => {
     dispatch(buscarPropriedades());
-    // Precisamos da lista de produtores tanto pro <select> do formulário
-    // de criação quanto pra resolver "produtorId -> nome" na tabela.
+    // Produtores servem pro <select> do form e pra resolver nome na tabela.
     dispatch(buscarProdutores());
   }, [dispatch]);
 

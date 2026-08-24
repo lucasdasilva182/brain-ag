@@ -4,6 +4,7 @@ interface RespostaErroApi {
   message?: string | string[];
 }
 
+// NestJS retorna { statusCode, message, error }; message pode ser string ou string[].
 export function extrairMensagemDeErro(
   error: unknown,
   mensagemPadrao = 'Não foi possível completar a operação',

@@ -45,6 +45,7 @@ export function ProdutoresPage() {
   }, [dispatch]);
 
   async function handleCriar(dados: { documento: string; nome: string }) {
+    // .unwrap() propaga o erro do backend — sem isso o modal fechava mesmo na falha.
     await dispatch(criarProdutor(dados)).unwrap();
     setCriarAberto(false);
   }
@@ -120,8 +121,9 @@ export function ProdutoresPage() {
         {produtorRemovendo && (
           <>
             <ConfirmText>
-              Tem certeza que deseja remover <strong>{produtorRemovendo.nome}</strong>? Essa ação
-              também remove todas as propriedades vinculadas a ele, e não pode ser desfeita.
+              Tem certeza que deseja remover <strong>{produtorRemovendo.nome}</strong>? Essa
+              ação também remove todas as propriedades vinculadas a ele, e não pode ser
+              desfeita.
             </ConfirmText>
             <ConfirmActions>
               <Button $variant="secondary" onClick={() => setProdutorRemovendo(null)}>

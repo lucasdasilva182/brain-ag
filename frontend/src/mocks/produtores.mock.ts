@@ -1,7 +1,6 @@
 import type { Produtor } from '../types/domain';
 
-// Dados mockados usados como fallback/exemplo enquanto a API real não
-// está disponível, e também como fixture nos testes.
+// Fallback quando a API está fora do ar, e fixture nos testes.
 export const produtoresMock: Produtor[] = [
   {
     id: 'p1',

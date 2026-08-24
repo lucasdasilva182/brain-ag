@@ -1,6 +1,4 @@
-// Paleta baseada na identidade visual da marca: fundo escuro (quase
-// preto), verde como cor primária (o "a" do logo) e branco como
-// destaque secundário (o "b" do logo).
+// Paleta da marca: fundo escuro, verde primário, branco como destaque.
 export const theme = {
   colors: {
     background: '#161615',

@@ -59,9 +59,7 @@ interface CulturasCellProps {
   onRemover: (safraId: string, culturaId: string) => void;
 }
 
-// Componente pequeno e local (não exportado): cada linha da tabela
-// precisa do seu próprio campo de texto pra adicionar cultura, então
-// isolamos esse estado aqui em vez de tentar controlar isso na página.
+// Componente local: cada linha precisa do próprio estado de "nova cultura".
 function CulturasCell({ safra, propriedadeNome, onAdicionar, onRemover }: CulturasCellProps) {
   const [nome, setNome] = useState('');
 

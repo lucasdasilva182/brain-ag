@@ -44,13 +44,18 @@ export function ProdutorForm({
     setEnviando(true);
 
     try {
+      // Espera o backend antes de limpar/fechar — evita assumir sucesso cedo demais.
       await onSubmit({ documento, nome });
       if (!initialValues) {
         setDocumento('');
         setNome('');
       }
     } catch (erroCapturado) {
-      setErro(erroCapturado instanceof Error ? erroCapturado.message : String(erroCapturado));
+      setErro(
+        erroCapturado instanceof Error
+          ? erroCapturado.message
+          : String(erroCapturado),
+      );
     } finally {
       setEnviando(false);
     }

@@ -65,11 +65,8 @@ export function SafrasPage() {
     setCriarAberto(false);
   }
 
-  // Adicionar/remover cultura são ações rápidas direto na linha da
-  // tabela — não têm um modal próprio, então aqui não usamos .unwrap();
-  // se falhar, o pior caso é a cultura não aparecer/sumir, sem travar
-  // a tela. Erros nas ações principais (criar/remover safra) continuam
-  // com o mesmo tratamento das outras telas.
+  // Ações de cultura são rápidas e reversíveis: sem .unwrap(), diferente
+  // do fluxo principal de criar/remover safra.
   function handleAdicionarCultura(safraId: string, nome: string) {
     dispatch(adicionarCultura({ safraId, nome }));
   }
