@@ -1,8 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 
-// @Global() faz com que qualquer módulo da aplicação possa injetar o
-// PrismaService sem precisar importar o PrismaModule toda vez.
+// @Global() evita reimportar o PrismaModule em cada módulo que precisa do banco.
 @Global()
 @Module({
   providers: [PrismaService],

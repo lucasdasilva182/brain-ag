@@ -7,8 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = new Logger('Bootstrap');
 
-  // Validação global: todo DTO com decorators do class-validator é
-  // validado automaticamente antes de chegar no controller.
+  // Valida todo DTO automaticamente antes do controller rodar.
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, // remove campos que não estão no DTO

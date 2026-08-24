@@ -28,8 +28,7 @@ export class HealthController {
 
   private async checkDatabase(): Promise<HealthIndicatorResult> {
     try {
-      // Consulta mínima só para confirmar que a conexão com o Postgres
-      // está respondendo — não depende de nenhuma tabela existir.
+      // SELECT 1 só confirma que a conexão está viva, sem depender de tabelas.
       await this.prisma.$queryRaw`SELECT 1`;
       return { database: { status: 'up' } };
     } catch (error) {

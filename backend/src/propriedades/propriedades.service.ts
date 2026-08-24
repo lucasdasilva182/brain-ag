@@ -51,8 +51,7 @@ export class PropriedadesService {
   async update(id: string, dto: UpdatePropriedadeDto) {
     const atual = await this.findOne(id);
 
-    // Se o usuário está alterando alguma área, revalidamos a regra usando
-    // os valores atuais como fallback para os campos não enviados.
+    // Campos não enviados caem no valor atual antes de revalidar a área.
     const areasParaValidar = {
       areaTotal: dto.areaTotal ?? Number(atual.areaTotal),
       areaAgricultavel: dto.areaAgricultavel ?? Number(atual.areaAgricultavel),
