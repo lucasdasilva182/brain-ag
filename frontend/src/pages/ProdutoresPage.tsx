@@ -14,6 +14,7 @@ import { ProdutorList } from '../components/organisms/produtores/ProdutorList';
 import { Card, CardTitle } from '../components/atoms/Card';
 import { Button } from '../components/atoms/Button';
 import { Modal } from '../components/molecules/Modal';
+import { TableSkeleton } from '../components/molecules/TableSkeleton';
 import type { Produtor } from '../types/domain';
 
 const Toolbar = styled.div`
@@ -47,6 +48,8 @@ export function ProdutoresPage() {
     dispatch(buscarProdutores());
   }, [dispatch]);
 
+  // Acesso rápido do Dashboard leva pra cá com ?novo=1 já pedindo pra
+  // abrir o modal de criação, poupando um clique extra.
   useEffect(() => {
     if (searchParams.get('novo') === '1') {
       setCriarAberto(true);
@@ -60,6 +63,7 @@ export function ProdutoresPage() {
   }, []);
 
   async function handleCriar(dados: { documento: string; nome: string }) {
+    // .unwrap() propaga o erro do backend — sem isso o modal fechava mesmo na falha.
     await dispatch(criarProdutor(dados)).unwrap();
     setCriarAberto(false);
   }
@@ -99,7 +103,7 @@ export function ProdutoresPage() {
       <Card>
         <CardTitle>Produtores cadastrados</CardTitle>
         {carregando ? (
-          <p>Carregando...</p>
+          <TableSkeleton columns={5} />
         ) : (
           <ProdutorList
             produtores={itens}
@@ -138,8 +142,9 @@ export function ProdutoresPage() {
         {produtorRemovendo && (
           <>
             <ConfirmText>
-              Tem certeza que deseja remover <strong>{produtorRemovendo.nome}</strong>? Essa ação
-              também remove todas as propriedades vinculadas a ele, e não pode ser desfeita.
+              Tem certeza que deseja remover <strong>{produtorRemovendo.nome}</strong>? Essa
+              ação também remove todas as propriedades vinculadas a ele, e não pode ser
+              desfeita.
             </ConfirmText>
             <ConfirmActions>
               <Button $variant="secondary" onClick={() => setProdutorRemovendo(null)}>
