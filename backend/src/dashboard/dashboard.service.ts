@@ -17,10 +17,8 @@ export class DashboardService {
       0,
     );
 
-    // Gráfico 1: quantidade de fazendas por estado
     const porEstado = this.contarPor(propriedades, (p) => p.estado);
 
-    // Gráfico 2: vezes que cada cultura foi plantada, somando todas as safras
     const contagemCulturas = new Map<string, number>();
     for (const propriedade of propriedades) {
       for (const safra of propriedade.safras) {
@@ -36,7 +34,6 @@ export class DashboardService {
       ([label, value]) => ({ label, value }),
     );
 
-    // Gráfico 3: uso do solo (agricultável vs. vegetação), somado de todas as propriedades
     const totalAgricultavel = propriedades.reduce(
       (soma, p) => soma + Number(p.areaAgricultavel),
       0,

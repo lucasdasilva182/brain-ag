@@ -5,7 +5,7 @@ import {
 } from 'class-validator';
 import { isValidDocument } from './document.validator';
 
-// Permite usar @IsCpfCnpj() nos DTOs, igual @IsEmail() do class-validator.
+// Permite usar @IsCpfCnpj() nos DTOs, igual @IsEmail() do class-validator
 export function IsCpfCnpj(validationOptions?: ValidationOptions) {
   return function (object: object, propertyName: string) {
     registerDecorator({

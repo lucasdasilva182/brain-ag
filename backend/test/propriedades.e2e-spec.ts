@@ -22,8 +22,6 @@ describe('Propriedades (e2e)', () => {
     await app.close();
   });
 
-  // Toda propriedade precisa de um produtor dono — criamos um antes de
-  // cada teste pra não repetir esse setup em cada `it`.
   beforeEach(async () => {
     const produtor = await request(app.getHttpServer())
       .post('/produtores')
@@ -99,22 +97,15 @@ describe('Propriedades (e2e)', () => {
     });
 
     it('rejeita produtorId de um produtor que não existe (500/erro de FK)', async () => {
-      // O Prisma rejeita a criação por violação de chave estrangeira.
-      // Deixamos esse teste documentando o comportamento atual — é um
-      // ponto de melhoria futura transformar isso num 404 mais amigável.
-      await request(app.getHttpServer())
-        .post('/propriedades')
-        .send({
-          produtorId: '00000000-0000-0000-0000-000000000000',
-          nome: 'Fazenda Órfã',
-          cidade: 'Uberlândia',
-          estado: 'MG',
-          areaTotal: 100,
-          areaAgricultavel: 50,
-          areaVegetacao: 20,
-        });
-      // Não travamos num status específico aqui de propósito — o
-      // importante é registrar que isso é uma lacuna conhecida.
+      await request(app.getHttpServer()).post('/propriedades').send({
+        produtorId: '00000000-0000-0000-0000-000000000000',
+        nome: 'Fazenda Órfã',
+        cidade: 'Uberlândia',
+        estado: 'MG',
+        areaTotal: 100,
+        areaAgricultavel: 50,
+        areaVegetacao: 20,
+      });
     });
   });
 

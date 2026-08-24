@@ -7,7 +7,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  @ApiExcludeEndpoint() // não polui o Swagger, é só uma rota de "boas-vindas"
+  @ApiExcludeEndpoint()
   getInfo() {
     return this.appService.getInfo();
   }

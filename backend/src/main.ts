@@ -7,7 +7,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = new Logger('Bootstrap');
 
-  // Valida todo DTO automaticamente antes do controller rodar.
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, // remove campos que não estão no DTO
