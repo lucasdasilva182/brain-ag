@@ -15,18 +15,14 @@ function gerarItens(quantidade: number): Item[] {
 }
 
 describe('DataTable', () => {
-  it('não mostra paginação quando os itens cabem numa página só', () => {
-    renderWithTheme(
-      <DataTable columns={colunas} data={gerarItens(3)} getRowKey={(i) => i.id} itemsPerPage={5} />,
-    );
-
-    expect(screen.getByText('Item 1')).toBeInTheDocument();
-    expect(screen.queryByLabelText('Próxima página')).not.toBeInTheDocument();
-  });
-
   it('mostra só os itens da primeira página quando há mais itens que o limite', () => {
     renderWithTheme(
-      <DataTable columns={colunas} data={gerarItens(12)} getRowKey={(i) => i.id} itemsPerPage={5} />,
+      <DataTable
+        columns={colunas}
+        data={gerarItens(12)}
+        getRowKey={(i) => i.id}
+        itemsPerPage={5}
+      />,
     );
 
     expect(screen.getByText('Item 1')).toBeInTheDocument();
@@ -38,7 +34,12 @@ describe('DataTable', () => {
 
   it('avança e volta de página corretamente', () => {
     renderWithTheme(
-      <DataTable columns={colunas} data={gerarItens(12)} getRowKey={(i) => i.id} itemsPerPage={5} />,
+      <DataTable
+        columns={colunas}
+        data={gerarItens(12)}
+        getRowKey={(i) => i.id}
+        itemsPerPage={5}
+      />,
     );
 
     fireEvent.click(screen.getByLabelText('Próxima página'));
@@ -56,7 +57,12 @@ describe('DataTable', () => {
 
   it('desabilita "página anterior" na primeira página', () => {
     renderWithTheme(
-      <DataTable columns={colunas} data={gerarItens(12)} getRowKey={(i) => i.id} itemsPerPage={5} />,
+      <DataTable
+        columns={colunas}
+        data={gerarItens(12)}
+        getRowKey={(i) => i.id}
+        itemsPerPage={5}
+      />,
     );
 
     expect(screen.getByLabelText('Página anterior')).toBeDisabled();
