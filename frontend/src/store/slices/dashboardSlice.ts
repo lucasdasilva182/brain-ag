@@ -3,7 +3,7 @@ import { dashboardService } from '../../services/dashboard.service';
 import type { DashboardResumo } from '../../types/domain';
 import { produtoresMock } from '../../mocks/produtores.mock';
 
-interface DashboardState {
+export interface DashboardState {
   resumo: DashboardResumo | null;
   carregando: boolean;
   erro: string | null;

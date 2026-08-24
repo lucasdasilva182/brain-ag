@@ -5,7 +5,7 @@ import { safrasMock } from '../../mocks/safras.mock';
 import type { CreateSafraPayload, Safra } from '../../types/domain';
 import { extrairMensagemDeErro } from '../../utils/api-error';
 
-interface SafrasState {
+export interface SafrasState {
   itens: Safra[];
   carregando: boolean;
   erro: string | null;
@@ -19,8 +19,7 @@ const initialState: SafrasState = {
   usandoMock: false,
 };
 
-export const buscarSafras = createAsyncThunk('safras/buscarSafras', async () => {
-  try {
+export const buscarSafras = createAsyncThunk('safras/buscarSafras', async () => {  try {
     return { itens: await safrasService.listar(), usandoMock: false };
   } catch {
     return { itens: safrasMock, usandoMock: true };
@@ -99,7 +98,7 @@ const safrasSlice = createSlice({
         state.itens = state.itens.filter((s) => s.id !== action.payload);
       })
       .addCase(adicionarCultura.fulfilled, (state, action) => {
-        // action.meta.arg dá o safraId (a API só devolve a cultura criada)
+        // action.meta.arg dá o safraId (a API só devolve a cultura criada).
         const safra = state.itens.find((s) => s.id === action.meta.arg.safraId);
         if (safra) {
           safra.culturas.push(action.payload);

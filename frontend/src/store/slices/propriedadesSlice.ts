@@ -9,7 +9,7 @@ import type {
 } from '../../types/domain';
 import { extrairMensagemDeErro } from '../../utils/api-error';
 
-interface PropriedadesState {
+export interface PropriedadesState {
   itens: Propriedade[];
   carregando: boolean;
   erro: string | null;

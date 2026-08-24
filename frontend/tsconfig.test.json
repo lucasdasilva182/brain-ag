@@ -1,9 +1,12 @@
 {
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
+    "composite": true,
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.test.tsbuildinfo",
     "types": ["vite/client", "jest", "node", "@testing-library/jest-dom"],
     "verbatimModuleSyntax": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false
-  }
+  },
+  "exclude": []
 }
