@@ -3,7 +3,6 @@ export interface EstadoBrasileiro {
   nome: string;
 }
 
-// 26 estados + Distrito Federal (27 unidades federativas).
 export const ESTADOS_BRASILEIROS: EstadoBrasileiro[] = [
   { uf: 'AC', nome: 'Acre' },
   { uf: 'AL', nome: 'Alagoas' },

@@ -19,7 +19,7 @@ const initialState: ProdutoresState = {
   usandoMock: false,
 };
 
-// Fallback pros dados mockados se o backend estiver fora do ar.
+// Fallback pros dados mockados se o backend estiver fora do ar
 export const buscarProdutores = createAsyncThunk(
   'produtores/buscarProdutores',
   async () => {
@@ -31,7 +31,7 @@ export const buscarProdutores = createAsyncThunk(
   },
 );
 
-// rejectWithValue propaga a mensagem real do backend até quem usar .unwrap().
+// rejectWithValue propaga a mensagem real do backend até quem usar .unwrap()
 export const criarProdutor = createAsyncThunk(
   'produtores/criarProdutor',
   async (payload: CreateProdutorPayload, { rejectWithValue }) => {
@@ -95,13 +95,13 @@ const produtoresSlice = createSlice({
         state.erro = action.error.message ?? 'Erro ao buscar produtores';
       })
       .addCase(criarProdutor.fulfilled, (state, action: PayloadAction<Produtor>) => {
-        // Fallback defensivo caso a API omita "propriedades" na resposta.
+        // Fallback defensivo caso a API omita "propriedades" na resposta
         state.itens.unshift({ ...action.payload, propriedades: action.payload.propriedades ?? [] });
       })
       .addCase(editarProdutor.fulfilled, (state, action: PayloadAction<Produtor>) => {
         const index = state.itens.findIndex((p) => p.id === action.payload.id);
         if (index !== -1) {
-          // Merge (não substituição): o PATCH não devolve "propriedades".
+          // Merge (não substituição): o PATCH não devolve "propriedades"
           state.itens[index] = { ...state.itens[index], ...action.payload };
         }
       })

@@ -145,10 +145,6 @@ const PropLocal = styled.span`
   color: ${({ theme }) => theme.colors.textMuted};
 `;
 
-// Barra de proporção da área: em vez de 3 números soltos, mostra
-// visualmente quanto da área total é agricultável, vegetação, e —
-// quando a soma não bate com o total (a regra de negócio permite
-// soma <= total) — a fração que ainda não foi classificada.
 const BarraArea = styled.div`
   display: flex;
   height: 10px;

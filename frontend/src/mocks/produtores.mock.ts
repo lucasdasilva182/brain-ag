@@ -1,6 +1,5 @@
 import type { Produtor } from '../types/domain';
 
-// Fallback quando a API está fora do ar, e fixture nos testes.
 export const produtoresMock: Produtor[] = [
   {
     id: 'p1',

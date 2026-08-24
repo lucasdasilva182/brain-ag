@@ -8,10 +8,6 @@ interface DocumentoInputProps {
   disabled?: boolean;
 }
 
-// Input de CPF/CNPJ com máscara aplicada enquanto o usuário digita.
-// Guarda o valor já formatado no estado do formulário — o backend
-// normaliza (remove pontuação) antes de validar, então não precisa
-// mandar só os dígitos crus.
 export function DocumentoInput({ id, value, onChange, disabled }: DocumentoInputProps) {
   return (
     <Input

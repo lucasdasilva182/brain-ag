@@ -71,9 +71,7 @@ export function PropriedadeForm({
   const [areaAgricultavel, setAreaAgricultavel] = useState(
     String(valoresIniciais.areaAgricultavel || ''),
   );
-  const [areaVegetacao, setAreaVegetacao] = useState(
-    String(valoresIniciais.areaVegetacao || ''),
-  );
+  const [areaVegetacao, setAreaVegetacao] = useState(String(valoresIniciais.areaVegetacao || ''));
   const [erro, setErro] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
 
@@ -89,7 +87,6 @@ export function PropriedadeForm({
     setEnviando(true);
 
     try {
-      // Regra de área já é validada no backend — só convertemos pra número aqui.
       await onSubmit({
         produtorId,
         nome,
@@ -110,9 +107,7 @@ export function PropriedadeForm({
         if (!produtorFixo) setProdutorId('');
       }
     } catch (erroCapturado) {
-      setErro(
-        erroCapturado instanceof Error ? erroCapturado.message : String(erroCapturado),
-      );
+      setErro(erroCapturado instanceof Error ? erroCapturado.message : String(erroCapturado));
     } finally {
       setEnviando(false);
     }

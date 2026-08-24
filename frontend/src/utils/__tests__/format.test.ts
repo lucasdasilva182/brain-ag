@@ -20,8 +20,6 @@ describe('formatarHectares', () => {
   });
 
   it('formata corretamente mesmo se vier como string (ex: Decimal do Prisma)', () => {
-    // Isso reproduz o bug real que já pegamos: sem o Number(valor) interno,
-    // 0 + "250100" concatena em vez de somar.
     expect(formatarHectares('250100' as unknown as number)).toBe('250.100 ha');
   });
 });

@@ -60,7 +60,6 @@ interface CulturasCellProps {
   onRemover: (safraId: string, culturaId: string) => void;
 }
 
-// Componente local: cada linha precisa do próprio estado de "nova cultura".
 function CulturasCell({ safra, propriedadeNome, onAdicionar, onRemover }: CulturasCellProps) {
   const [nome, setNome] = useState('');
 

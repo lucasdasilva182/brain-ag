@@ -15,7 +15,7 @@ const Form = styled.form`
 
 const Campo = styled.div`
   flex: 1;
-  min-width: 250px;
+  min-width: 300px;
 `;
 
 interface ProdutorFormProps {
@@ -48,7 +48,6 @@ export function ProdutorForm({
     setEnviando(true);
 
     try {
-      // Espera o backend antes de limpar/fechar — evita assumir sucesso cedo demais.
       await onSubmit({ documento, nome });
       if (!initialValues) {
         setDocumento('');

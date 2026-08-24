@@ -1,4 +1,3 @@
-// Paleta da marca: fundo escuro, verde primário, branco como destaque.
 export const theme = {
   colors: {
     background: '#161615',

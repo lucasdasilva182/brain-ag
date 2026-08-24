@@ -32,8 +32,6 @@ describe('SafraList', () => {
       />,
     );
 
-    // "2022" e "Soja" aparecem em mais de uma safra do mock, então
-    // usamos valores únicos pra não ter ambiguidade na busca.
     expect(screen.getAllByText('2022').length).toBeGreaterThan(0);
     expect(screen.getByText('Café')).toBeInTheDocument();
     expect(screen.getByText('Algodão')).toBeInTheDocument();
@@ -73,8 +71,6 @@ describe('SafraList', () => {
     );
 
     const primeiraCultura = safrasMock[0].culturas[0];
-    // "Soja" se repete em mais de uma safra do mock, então pegamos o
-    // primeiro botão (que corresponde à primeira linha da tabela).
     const botoesRemoverCultura = screen.getAllByLabelText(`Remover ${primeiraCultura.nome}`);
     fireEvent.click(botoesRemoverCultura[0]);
 
