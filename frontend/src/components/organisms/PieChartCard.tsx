@@ -1,7 +1,16 @@
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { Card, CardTitle } from '../atoms/Card';
 
-const CORES = ['#3FBE73', '#FFFFFF', '#6FDB9A', '#2C8F55', '#9A9A93', '#1F5C38'];
+const CORES = [
+  '#3FBE73',
+  '#7FB3D5',
+  '#E8B34C',
+  '#E88F7D',
+  '#B39DDB',
+  '#5EC8C0',
+  '#E0849A',
+  '#9A9A93',
+];
 
 interface PieChartCardProps {
   titulo: string;
@@ -21,14 +30,7 @@ export function PieChartCard({ titulo, dados }: PieChartCardProps) {
       ) : (
         <ResponsiveContainer width="100%" height={240}>
           <PieChart>
-            <Pie
-              data={dados}
-              dataKey="value"
-              nameKey="label"
-              cx="50%"
-              cy="50%"
-              outerRadius={80}
-            >
+            <Pie data={dados} dataKey="value" nameKey="label" cx="50%" cy="50%" outerRadius={80}>
               {dados.map((entrada, index) => (
                 <Cell key={entrada.label} fill={CORES[index % CORES.length]} />
               ))}
