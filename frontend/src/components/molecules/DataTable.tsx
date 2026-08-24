@@ -35,6 +35,10 @@ const Tabela = styled.table`
     white-space: nowrap;
   }
 
+  td:first-child {
+    font-weight: 600;
+  }
+
   tr:last-child td {
     border-bottom: none;
   }
@@ -102,10 +106,6 @@ interface DataTableProps<T> {
   itemsPerPage?: number;
 }
 
-// Genérica: quem usa define colunas e dados, sem saber de domínio nenhum.
-// Pagina no cliente (a lista inteira já vem carregada do backend) — para
-// volumes muito maiores, o próximo passo seria paginação no servidor,
-// mas isso já cobre bem o escopo deste projeto.
 export function DataTable<T>({
   columns,
   data,
@@ -116,8 +116,6 @@ export function DataTable<T>({
   const [pagina, setPagina] = useState(1);
   const totalPaginas = Math.max(1, Math.ceil(data.length / itemsPerPage));
 
-  // Se os dados mudarem (filtro aplicado, item removido) e a página
-  // atual deixar de existir, volta pra última página válida.
   useEffect(() => {
     if (pagina > totalPaginas) setPagina(totalPaginas);
   }, [pagina, totalPaginas]);
@@ -152,32 +150,30 @@ export function DataTable<T>({
         </Tabela>
       </TabelaWrapper>
 
-      {data.length > itemsPerPage && (
-        <Paginacao>
+      <Paginacao>
+        <span>
+          {inicio + 1}-{Math.min(inicio + itemsPerPage, data.length)} de {data.length}
+        </span>
+        <PaginacaoControles>
+          <PaginaBotao
+            onClick={() => setPagina((p) => Math.max(1, p - 1))}
+            disabled={pagina === 1}
+            aria-label="Página anterior"
+          >
+            <ChevronLeft size={16} />
+          </PaginaBotao>
           <span>
-            {inicio + 1}-{Math.min(inicio + itemsPerPage, data.length)} de {data.length}
+            Página {pagina} de {totalPaginas}
           </span>
-          <PaginacaoControles>
-            <PaginaBotao
-              onClick={() => setPagina((p) => Math.max(1, p - 1))}
-              disabled={pagina === 1}
-              aria-label="Página anterior"
-            >
-              <ChevronLeft size={16} />
-            </PaginaBotao>
-            <span>
-              Página {pagina} de {totalPaginas}
-            </span>
-            <PaginaBotao
-              onClick={() => setPagina((p) => Math.min(totalPaginas, p + 1))}
-              disabled={pagina === totalPaginas}
-              aria-label="Próxima página"
-            >
-              <ChevronRight size={16} />
-            </PaginaBotao>
-          </PaginacaoControles>
-        </Paginacao>
-      )}
+          <PaginaBotao
+            onClick={() => setPagina((p) => Math.min(totalPaginas, p + 1))}
+            disabled={pagina === totalPaginas}
+            aria-label="Próxima página"
+          >
+            <ChevronRight size={16} />
+          </PaginaBotao>
+        </PaginacaoControles>
+      </Paginacao>
     </div>
   );
 }
