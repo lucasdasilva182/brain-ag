@@ -5,6 +5,7 @@ import { UserPlus, MapPinPlus, Sprout } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { buscarResumoDashboard } from '../store/slices/dashboardSlice';
 import { PieChartCard } from '../components/organisms/PieChartCard';
+import { DashboardSkeleton } from '../components/organisms/DashboardSkeleton';
 import { Card, CardTitle } from '../components/atoms/Card';
 import { formatarHectares } from '../utils/format';
 
@@ -27,6 +28,10 @@ const Subtitulo = styled.p`
   margin: 0;
 `;
 
+// Cada bloco tem um nome de área ("hero", "acesso", "cultura",
+// "secundarios"). No desktop, o Acesso Rápido ocupa a coluna lateral
+// inteira; no mobile, a ordem muda pra hero -> acesso -> gráficos, sem
+// precisar duplicar HTML — só remapeamos onde cada área cai no grid.
 const Layout = styled.div`
   display: grid;
   grid-template-columns: 1fr 300px;
@@ -156,7 +161,7 @@ export function DashboardPage() {
   }, [dispatch]);
 
   if (carregando && !resumo) {
-    return <p>Carregando dashboard...</p>;
+    return <DashboardSkeleton />;
   }
 
   if (!resumo) {
