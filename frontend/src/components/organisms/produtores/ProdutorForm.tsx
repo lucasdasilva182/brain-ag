@@ -15,7 +15,7 @@ const Form = styled.form`
 
 const Campo = styled.div`
   flex: 1;
-  min-width: 200px;
+  min-width: 250px;
 `;
 
 interface ProdutorFormProps {
@@ -55,11 +55,7 @@ export function ProdutorForm({
         setNome('');
       }
     } catch (erroCapturado) {
-      setErro(
-        erroCapturado instanceof Error
-          ? erroCapturado.message
-          : String(erroCapturado),
-      );
+      setErro(erroCapturado instanceof Error ? erroCapturado.message : String(erroCapturado));
     } finally {
       setEnviando(false);
     }

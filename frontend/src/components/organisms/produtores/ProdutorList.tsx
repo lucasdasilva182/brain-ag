@@ -63,7 +63,12 @@ export function ProdutorList({ produtores, onEditar, onRemover }: ProdutorListPr
       label: '',
       render: (produtor) => (
         <Acoes>
-          <Button as={Link} to={`/produtores/${produtor.id}`} $variant="secondary">
+          <Button
+            as={Link}
+            to={`/produtores/${produtor.id}`}
+            $variant="secondary"
+            style={{ textDecoration: 'none' }}
+          >
             <Eye size={14} />
             Ver detalhes
           </Button>
