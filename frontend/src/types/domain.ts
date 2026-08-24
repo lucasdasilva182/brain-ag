@@ -51,6 +51,12 @@ export type UpdatePropriedadePayload = Partial<
   Omit<CreatePropriedadePayload, 'produtorId'>
 >;
 
+export type CreateSafraPayload = {
+  propriedadeId: string;
+  ano: number;
+  culturas?: { nome: string }[];
+};
+
 export interface DashboardResumo {
   totalFazendas: number;
   totalHectares: number;
