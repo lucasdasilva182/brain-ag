@@ -14,6 +14,13 @@ brain-agriculture/
 
 Cada pasta tem seu próprio README com instruções detalhadas de instalação, execução e testes.
 
+## Deploy
+
+- **Frontend**: [URL da Vercel]
+- **Backend**: [URL da Render] — documentação Swagger em `/docs`, health check em `/health`
+
+> O backend está no plano gratuito da Render, que "dorme" após 15 minutos sem uso — a primeira requisição depois de um tempo parado pode demorar de 30 a 60 segundos pra responder. Isso é uma limitação do plano gratuito, não um bug da aplicação.
+
 ## Como rodar o projeto completo
 
 1. Suba o backend (veja `backend/README.md`) — ele expõe a API em `http://localhost:3000` e a documentação Swagger em `http://localhost:3000/docs`.
