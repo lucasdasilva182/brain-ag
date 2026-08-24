@@ -132,6 +132,9 @@ export function NavBar() {
           <StyledNavLink to="/propriedades" onClick={() => setMenuAberto(false)}>
             Propriedades
           </StyledNavLink>
+          <StyledNavLink to="/safras" onClick={() => setMenuAberto(false)}>
+            Safras
+          </StyledNavLink>
         </Links>
       </NavContent>
     </Nav>

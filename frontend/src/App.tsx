@@ -8,6 +8,7 @@ import { MainLayout } from './components/templates/MainLayout';
 import { DashboardPage } from './pages/DashboardPage';
 import { ProdutoresPage } from './pages/ProdutoresPage';
 import { PropriedadesPage } from './pages/PropriedadesPage';
+import { SafrasPage } from './pages/SafrasPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path="/" element={<DashboardPage />} />
               <Route path="/produtores" element={<ProdutoresPage />} />
               <Route path="/propriedades" element={<PropriedadesPage />} />
+              <Route path="/safras" element={<SafrasPage />} />
             </Routes>
           </MainLayout>
         </BrowserRouter>
