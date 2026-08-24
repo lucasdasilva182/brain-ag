@@ -7,6 +7,7 @@ import { GlobalStyle } from './GlobalStyle';
 import { MainLayout } from './components/templates/MainLayout';
 import { DashboardPage } from './pages/DashboardPage';
 import { ProdutoresPage } from './pages/ProdutoresPage';
+import { PropriedadesPage } from './pages/PropriedadesPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Routes>
               <Route path="/" element={<DashboardPage />} />
               <Route path="/produtores" element={<ProdutoresPage />} />
+              <Route path="/propriedades" element={<PropriedadesPage />} />
             </Routes>
           </MainLayout>
         </BrowserRouter>

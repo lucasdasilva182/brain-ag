@@ -45,9 +45,7 @@ const BurgerButton = styled.button`
     width: 100%;
     background: ${({ theme }) => theme.colors.text};
     border-radius: 2px;
-    transition:
-      transform 0.2s ease,
-      opacity 0.2s ease;
+    transition: transform 0.2s ease, opacity 0.2s ease;
   }
 
   @media (max-width: ${BREAKPOINT_MOBILE}) {
@@ -130,6 +128,9 @@ export function NavBar() {
           </StyledNavLink>
           <StyledNavLink to="/produtores" onClick={() => setMenuAberto(false)}>
             Produtores
+          </StyledNavLink>
+          <StyledNavLink to="/propriedades" onClick={() => setMenuAberto(false)}>
+            Propriedades
           </StyledNavLink>
         </Links>
       </NavContent>
