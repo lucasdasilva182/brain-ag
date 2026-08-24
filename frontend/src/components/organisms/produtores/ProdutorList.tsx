@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Pencil, Trash2, MapPin } from 'lucide-react';
+import { Pencil, Trash2, MapPin, Eye } from 'lucide-react';
 import type { Produtor } from '../../../types/domain';
 import { formatarDocumento, formatarHectares } from '../../../utils/format';
 import { Button } from '../../atoms/Button';
@@ -63,6 +63,10 @@ export function ProdutorList({ produtores, onEditar, onRemover }: ProdutorListPr
       label: '',
       render: (produtor) => (
         <Acoes>
+          <Button as={Link} to={`/produtores/${produtor.id}`} $variant="secondary">
+            <Eye size={14} />
+            Ver detalhes
+          </Button>
           <Button $variant="secondary" onClick={() => onEditar(produtor)}>
             <Pencil size={14} />
             Editar

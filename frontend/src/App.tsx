@@ -7,6 +7,7 @@ import { GlobalStyle } from './GlobalStyle';
 import { MainLayout } from './components/templates/MainLayout';
 import { DashboardPage } from './pages/DashboardPage';
 import { ProdutoresPage } from './pages/ProdutoresPage';
+import { ProdutorDetalhePage } from './pages/ProdutorDetalhePage';
 import { PropriedadesPage } from './pages/PropriedadesPage';
 import { SafrasPage } from './pages/SafrasPage';
 
@@ -20,6 +21,7 @@ function App() {
             <Routes>
               <Route path="/" element={<DashboardPage />} />
               <Route path="/produtores" element={<ProdutoresPage />} />
+              <Route path="/produtores/:id" element={<ProdutorDetalhePage />} />
               <Route path="/propriedades" element={<PropriedadesPage />} />
               <Route path="/safras" element={<SafrasPage />} />
             </Routes>
