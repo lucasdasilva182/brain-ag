@@ -28,10 +28,6 @@ const Subtitulo = styled.p`
   margin: 0;
 `;
 
-// Cada bloco tem um nome de área ("hero", "acesso", "cultura",
-// "secundarios"). No desktop, o Acesso Rápido ocupa a coluna lateral
-// inteira; no mobile, a ordem muda pra hero -> acesso -> gráficos, sem
-// precisar duplicar HTML — só remapeamos onde cada área cai no grid.
 const Layout = styled.div`
   display: grid;
   grid-template-columns: 1fr 300px;

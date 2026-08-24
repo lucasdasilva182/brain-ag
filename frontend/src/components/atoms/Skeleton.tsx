@@ -12,8 +12,6 @@ interface SkeletonProps {
   radius?: string;
 }
 
-// Bloco cinza pulsante usado como placeholder de conteúdo carregando.
-// Combine vários pra montar o "esqueleto" de qualquer layout.
 export const Skeleton = styled.div<SkeletonProps>`
   width: ${({ width }) => width ?? '100%'};
   height: ${({ height }) => height ?? '16px'};

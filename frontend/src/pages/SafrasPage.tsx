@@ -73,9 +73,7 @@ export function SafrasPage() {
   }, [dispatch]);
 
   function nomeDaPropriedade(propriedadeId: string): string {
-    return (
-      propriedades.find((p) => p.id === propriedadeId)?.nome ?? 'Propriedade não encontrada'
-    );
+    return propriedades.find((p) => p.id === propriedadeId)?.nome ?? 'Propriedade não encontrada';
   }
 
   async function handleCriar(dados: SafraFormValues) {
@@ -89,8 +87,6 @@ export function SafrasPage() {
     fecharModalCriar();
   }
 
-  // Ações de cultura são rápidas e reversíveis: sem .unwrap(), diferente
-  // do fluxo principal de criar/remover safra.
   function handleAdicionarCultura(safraId: string, nome: string) {
     dispatch(adicionarCultura({ safraId, nome }));
   }
@@ -158,18 +154,13 @@ export function SafrasPage() {
         />
       </Modal>
 
-      <Modal
-        open={!!safraRemovendo}
-        onClose={() => setSafraRemovendo(null)}
-        title="Remover safra"
-      >
+      <Modal open={!!safraRemovendo} onClose={() => setSafraRemovendo(null)} title="Remover safra">
         {safraRemovendo && (
           <>
             <ConfirmText>
-              Tem certeza que deseja remover a safra <strong>{safraRemovendo.ano}</strong>{' '}
-              de <strong>{nomeDaPropriedade(safraRemovendo.propriedadeId)}</strong>? Essa
-              ação também remove todas as culturas plantadas vinculadas a ela, e não pode
-              ser desfeita.
+              Tem certeza que deseja remover a safra <strong>{safraRemovendo.ano}</strong> de{' '}
+              <strong>{nomeDaPropriedade(safraRemovendo.propriedadeId)}</strong>? Essa ação também
+              remove todas as culturas plantadas vinculadas a ela, e não pode ser desfeita.
             </ConfirmText>
             <ConfirmActions>
               <Button $variant="secondary" onClick={() => setSafraRemovendo(null)}>

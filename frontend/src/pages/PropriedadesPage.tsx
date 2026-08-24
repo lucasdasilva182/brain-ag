@@ -66,9 +66,11 @@ const LimparFiltro = styled.button`
 export function PropriedadesPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { itens: propriedades, carregando, usandoMock } = useAppSelector(
-    (state) => state.propriedades,
-  );
+  const {
+    itens: propriedades,
+    carregando,
+    usandoMock,
+  } = useAppSelector((state) => state.propriedades);
   const { itens: produtores } = useAppSelector((state) => state.produtores);
   const [searchParams, setSearchParams] = useSearchParams();
   const produtorIdFiltro = searchParams.get('produtorId');
@@ -80,7 +82,6 @@ export function PropriedadesPage() {
 
   useEffect(() => {
     dispatch(buscarPropriedades());
-    // Produtores servem pro <select> do form e pra resolver nome na tabela.
     dispatch(buscarProdutores());
   }, [dispatch]);
 
@@ -151,10 +152,7 @@ export function PropriedadesPage() {
       {produtorIdFiltro && (
         <FiltroChip>
           Filtrando por: <strong>{nomeDoProdutor(produtorIdFiltro)}</strong>
-          <LimparFiltro
-            onClick={() => setSearchParams({})}
-            aria-label="Limpar filtro de produtor"
-          >
+          <LimparFiltro onClick={() => setSearchParams({})} aria-label="Limpar filtro de produtor">
             <X size={14} />
           </LimparFiltro>
         </FiltroChip>
@@ -181,11 +179,7 @@ export function PropriedadesPage() {
         )}
       </Card>
 
-      <Modal
-        open={criarAberto}
-        onClose={() => setCriarAberto(false)}
-        title="Cadastrar propriedade"
-      >
+      <Modal open={criarAberto} onClose={() => setCriarAberto(false)} title="Cadastrar propriedade">
         <PropriedadeForm
           produtorOptions={produtores.map((p) => ({ id: p.id, nome: p.nome }))}
           onSubmit={handleCriar}
@@ -226,9 +220,8 @@ export function PropriedadesPage() {
         {propriedadeRemovendo && (
           <>
             <ConfirmText>
-              Tem certeza que deseja remover <strong>{propriedadeRemovendo.nome}</strong>?
-              Essa ação também remove todas as safras vinculadas a ela, e não pode ser
-              desfeita.
+              Tem certeza que deseja remover <strong>{propriedadeRemovendo.nome}</strong>? Essa ação
+              também remove todas as safras vinculadas a ela, e não pode ser desfeita.
             </ConfirmText>
             <ConfirmActions>
               <Button $variant="secondary" onClick={() => setPropriedadeRemovendo(null)}>

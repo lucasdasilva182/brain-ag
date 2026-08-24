@@ -98,7 +98,6 @@ const safrasSlice = createSlice({
         state.itens = state.itens.filter((s) => s.id !== action.payload);
       })
       .addCase(adicionarCultura.fulfilled, (state, action) => {
-        // action.meta.arg dá o safraId (a API só devolve a cultura criada).
         const safra = state.itens.find((s) => s.id === action.meta.arg.safraId);
         if (safra) {
           safra.culturas.push(action.payload);

@@ -24,9 +24,6 @@ interface TableSkeletonProps {
   rows?: number;
 }
 
-// Imita o formato do DataTable (cabeçalho + N linhas) enquanto os
-// dados reais ainda não chegaram — evita o "pulo" de layout quando a
-// tabela de verdade aparece.
 export function TableSkeleton({ columns = 4, rows = 5 }: TableSkeletonProps) {
   return (
     <Wrapper>
@@ -38,11 +35,7 @@ export function TableSkeleton({ columns = 4, rows = 5 }: TableSkeletonProps) {
       {Array.from({ length: rows }).map((_, linha) => (
         <Linha key={linha}>
           {Array.from({ length: columns }).map((_, coluna) => (
-            <Skeleton
-              key={coluna}
-              height="16px"
-              width={coluna === 0 ? '150px' : '90px'}
-            />
+            <Skeleton key={coluna} height="16px" width={coluna === 0 ? '150px' : '90px'} />
           ))}
         </Linha>
       ))}
