@@ -1,17 +1,28 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { ArrowLeft, ArrowUpRight, Pencil, Trash2, MapPin, Sprout } from 'lucide-react';
-import { produtoresService } from '../services/produtores.service';
-import { useAppDispatch } from '../hooks/redux';
-import { editarProdutor, removerProdutor } from '../store/slices/produtoresSlice';
-import { formatarDocumento, formatarHectares } from '../utils/format';
-import { Button } from '../components/atoms/Button';
-import { Modal } from '../components/molecules/Modal';
-import { ProdutorForm } from '../components/organisms/produtores/ProdutorForm';
-import type { Produtor, Propriedade } from '../types/domain';
+import { useEffect, useState } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import styled from "styled-components";
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  Pencil,
+  Trash2,
+  MapPin,
+  Sprout,
+} from "lucide-react";
+import { produtoresService } from "../services/produtores.service";
+import { useAppDispatch } from "../hooks/redux";
+import {
+  editarProdutor,
+  removerProdutor,
+} from "../store/slices/produtoresSlice";
+import { formatarDocumento, formatarHectares } from "../utils/format";
+import { Button } from "../components/atoms/Button";
+import { Modal } from "../components/molecules/Modal";
+import { ProdutorForm } from "../components/organisms/produtores/ProdutorForm";
+import { ProdutorDetalheSkeleton } from "../components/organisms/ProdutorDetalheSkeleton";
+import type { Produtor, Propriedade } from "../types/domain";
 
-const BREAKPOINT_TABLET = '768px';
+const BREAKPOINT_TABLET = "768px";
 
 const VoltarLink = styled(Link)`
   display: inline-flex;
@@ -30,7 +41,7 @@ const VoltarLink = styled(Link)`
 const Layout = styled.div`
   display: grid;
   grid-template-columns: 260px 1fr;
-  gap: ${({ theme }) => theme.spacing(4)};
+  gap: ${({ theme }) => theme.spacing(6)};
   align-items: start;
 
   @media (max-width: ${BREAKPOINT_TABLET}) {
@@ -108,6 +119,13 @@ const SidebarAcoes = styled.div`
 
 const Content = styled.div``;
 
+const SecaoTitulo = styled.h3`
+  font-family: ${({ theme }) => theme.font.display};
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.text};
+  margin: 0 0 ${({ theme }) => theme.spacing(4)} 0;
+`;
+
 const ListaPropriedades = styled.div`
   display: flex;
   flex-direction: column;
@@ -145,6 +163,10 @@ const PropLocal = styled.span`
   color: ${({ theme }) => theme.colors.textMuted};
 `;
 
+// Barra de proporção da área: em vez de 3 números soltos, mostra
+// visualmente quanto da área total é agricultável, vegetação, e —
+// quando a soma não bate com o total (a regra de negócio permite
+// soma <= total) — a fração que ainda não foi classificada.
 const BarraArea = styled.div`
   display: flex;
   height: 10px;
@@ -225,7 +247,7 @@ const Tag = styled.span`
   color: ${({ theme }) => theme.colors.text};
 
   &::before {
-    content: '·';
+    content: "·";
     margin-right: 6px;
     color: ${({ theme }) => theme.colors.textMuted};
   }
@@ -271,13 +293,16 @@ const ConfirmActions = styled.div`
 `;
 
 const CORES = {
-  agricultavel: '#cf8b08',
-  vegetacao: '#6FDB9A',
-  naoClassificada: '#34342F',
+  agricultavel: "#3FBE73",
+  vegetacao: "#6FDB9A",
+  naoClassificada: "#34342F",
 };
 
 function areaTotalDoProdutor(produtor: Produtor): number {
-  return produtor.propriedades.reduce((soma, p) => soma + Number(p.areaTotal), 0);
+  return produtor.propriedades.reduce(
+    (soma, p) => soma + Number(p.areaTotal),
+    0,
+  );
 }
 
 function proporcoesDeArea(propriedade: Propriedade) {
@@ -318,7 +343,9 @@ export function ProdutorDetalhePage() {
     produtoresService
       .buscarPorId(id)
       .then(setProdutor)
-      .catch(() => setErro('Não foi possível carregar os dados deste produtor.'))
+      .catch(() =>
+        setErro("Não foi possível carregar os dados deste produtor."),
+      )
       .finally(() => setCarregando(false));
   }
 
@@ -334,7 +361,7 @@ export function ProdutorDetalhePage() {
     setRemovendo(true);
     try {
       await dispatch(removerProdutor(produtor.id)).unwrap();
-      navigate('/produtores');
+      navigate("/produtores");
     } finally {
       setRemovendo(false);
     }
@@ -342,156 +369,200 @@ export function ProdutorDetalhePage() {
 
   return (
     <div>
-      <VoltarLink to="/produtores">
-        <ArrowLeft size={16} />
-        Voltar para produtores
-      </VoltarLink>
-
-      {carregando && <p>Carregando...</p>}
-      {erro && <p style={{ color: '#E8604C' }}>{erro}</p>}
+      {carregando && <ProdutorDetalheSkeleton />}
+      {erro && <p style={{ color: "#E8604C" }}>{erro}</p>}
 
       {produtor && (
-        <Layout>
-          <Sidebar>
-            <div>
-              <Nome>{produtor.nome}</Nome>
-              <Documento>{formatarDocumento(produtor.documento)}</Documento>
-            </div>
+        <>
+          <VoltarLink to="/produtores">
+            <ArrowLeft size={16} />
+            Voltar para produtores
+          </VoltarLink>
 
-            <SidebarStats>
-              <SidebarStatItem>
-                <SidebarStatLabel>Propriedades</SidebarStatLabel>
-                <SidebarStatValor>{produtor.propriedades.length}</SidebarStatValor>
-              </SidebarStatItem>
-              <SidebarStatItem>
-                <SidebarStatLabel>Área total</SidebarStatLabel>
-                <SidebarStatValor>
-                  {formatarHectares(areaTotalDoProdutor(produtor))}
-                </SidebarStatValor>
-              </SidebarStatItem>
-            </SidebarStats>
+          <Layout>
+            <Sidebar>
+              <div>
+                <Nome>{produtor.nome}</Nome>
+                <Documento>{formatarDocumento(produtor.documento)}</Documento>
+              </div>
 
-            <SidebarAcoes>
-              <Button $variant="secondary" onClick={() => setEditarAberto(true)}>
-                <Pencil size={14} />
-                Editar
-              </Button>
-              <Button $variant="danger" onClick={() => setRemoverAberto(true)}>
-                <Trash2 size={14} />
-                Remover
-              </Button>
-            </SidebarAcoes>
-          </Sidebar>
+              <SidebarStats>
+                <SidebarStatItem>
+                  <SidebarStatLabel>Propriedades</SidebarStatLabel>
+                  <SidebarStatValor>
+                    {produtor.propriedades.length}
+                  </SidebarStatValor>
+                </SidebarStatItem>
+                <SidebarStatItem>
+                  <SidebarStatLabel>Área total</SidebarStatLabel>
+                  <SidebarStatValor>
+                    {formatarHectares(areaTotalDoProdutor(produtor))}
+                  </SidebarStatValor>
+                </SidebarStatItem>
+              </SidebarStats>
 
-          <Content>
-            {produtor.propriedades.length === 0 ? (
-              <EstadoVazio>Este produtor ainda não tem propriedades cadastradas.</EstadoVazio>
-            ) : (
-              <ListaPropriedades>
-                {produtor.propriedades.map((propriedade) => {
-                  const prop = proporcoesDeArea(propriedade);
-                  return (
-                    <PropriedadeCard key={propriedade.id}>
-                      <PropHeader>
-                        <PropNome>{propriedade.nome}</PropNome>
-                        <PropLocal>
-                          <MapPin size={13} />
-                          {propriedade.cidade} — {propriedade.estado}
-                        </PropLocal>
-                      </PropHeader>
+              <SidebarAcoes>
+                <Button
+                  $variant="secondary"
+                  onClick={() => setEditarAberto(true)}
+                >
+                  <Pencil size={14} />
+                  Editar
+                </Button>
+                <Button
+                  $variant="danger"
+                  onClick={() => setRemoverAberto(true)}
+                >
+                  <Trash2 size={14} />
+                  Remover
+                </Button>
+              </SidebarAcoes>
+            </Sidebar>
 
-                      <BarraArea>
-                        <Segmento $largura={prop.agricultavelPct} $cor={CORES.agricultavel} />
-                        <Segmento $largura={prop.vegetacaoPct} $cor={CORES.vegetacao} />
-                        {prop.naoClassificada > 0 && (
+            <Content>
+              <SecaoTitulo>
+                Fazendas ({produtor.propriedades.length})
+              </SecaoTitulo>
+
+              {produtor.propriedades.length === 0 ? (
+                <EstadoVazio>
+                  Este produtor ainda não tem propriedades cadastradas.
+                </EstadoVazio>
+              ) : (
+                <ListaPropriedades>
+                  {produtor.propriedades.map((propriedade) => {
+                    const prop = proporcoesDeArea(propriedade);
+                    return (
+                      <PropriedadeCard key={propriedade.id}>
+                        <PropHeader>
+                          <PropNome>{propriedade.nome}</PropNome>
+                          <PropLocal>
+                            <MapPin size={13} />
+                            {propriedade.cidade} — {propriedade.estado}
+                          </PropLocal>
+                        </PropHeader>
+
+                        <BarraArea>
                           <Segmento
-                            $largura={prop.naoClassificadaPct}
-                            $cor={CORES.naoClassificada}
+                            $largura={prop.agricultavelPct}
+                            $cor={CORES.agricultavel}
                           />
+                          <Segmento
+                            $largura={prop.vegetacaoPct}
+                            $cor={CORES.vegetacao}
+                          />
+                          {prop.naoClassificada > 0 && (
+                            <Segmento
+                              $largura={prop.naoClassificadaPct}
+                              $cor={CORES.naoClassificada}
+                            />
+                          )}
+                        </BarraArea>
+
+                        <LegendaArea>
+                          <LegendaItem>
+                            <LegendaCor $cor={CORES.agricultavel} />
+                            <LegendaValor>
+                              {formatarHectares(propriedade.areaAgricultavel)}
+                            </LegendaValor>{" "}
+                            agricultável
+                          </LegendaItem>
+                          <LegendaItem>
+                            <LegendaCor $cor={CORES.vegetacao} />
+                            <LegendaValor>
+                              {formatarHectares(propriedade.areaVegetacao)}
+                            </LegendaValor>{" "}
+                            vegetação
+                          </LegendaItem>
+                          <LegendaItem>
+                            <LegendaValor>
+                              {formatarHectares(propriedade.areaTotal)}
+                            </LegendaValor>{" "}
+                            total
+                          </LegendaItem>
+                        </LegendaArea>
+
+                        <SafrasLabel>Safras</SafrasLabel>
+                        {propriedade.safras.length === 0 ? (
+                          <SemSafras>
+                            Nenhuma safra cadastrada nesta propriedade.
+                          </SemSafras>
+                        ) : (
+                          <SafrasFlow>
+                            {propriedade.safras.map((safra) => (
+                              <SafraGrupo key={safra.id}>
+                                <SafraAno>
+                                  <Sprout size={12} />
+                                  {safra.ano}
+                                </SafraAno>
+                                {safra.culturas.length === 0 ? (
+                                  <Tag>sem culturas</Tag>
+                                ) : (
+                                  safra.culturas.map((cultura) => (
+                                    <Tag key={cultura.id}>{cultura.nome}</Tag>
+                                  ))
+                                )}
+                              </SafraGrupo>
+                            ))}
+                          </SafrasFlow>
                         )}
-                      </BarraArea>
+                      </PropriedadeCard>
+                    );
+                  })}
+                </ListaPropriedades>
+              )}
 
-                      <LegendaArea>
-                        <LegendaItem>
-                          <LegendaCor $cor={CORES.agricultavel} />
-                          <LegendaValor>
-                            {formatarHectares(propriedade.areaAgricultavel)}
-                          </LegendaValor>{' '}
-                          agricultável
-                        </LegendaItem>
-                        <LegendaItem>
-                          <LegendaCor $cor={CORES.vegetacao} />
-                          <LegendaValor>
-                            {formatarHectares(propriedade.areaVegetacao)}
-                          </LegendaValor>{' '}
-                          vegetação
-                        </LegendaItem>
-                        <LegendaItem>
-                          <LegendaValor>{formatarHectares(propriedade.areaTotal)}</LegendaValor>{' '}
-                          total
-                        </LegendaItem>
-                      </LegendaArea>
-
-                      <SafrasLabel>Safras</SafrasLabel>
-                      {propriedade.safras.length === 0 ? (
-                        <SemSafras>Nenhuma safra cadastrada nesta propriedade.</SemSafras>
-                      ) : (
-                        <SafrasFlow>
-                          {propriedade.safras.map((safra) => (
-                            <SafraGrupo key={safra.id}>
-                              <SafraAno>
-                                <Sprout size={12} />
-                                {safra.ano}
-                              </SafraAno>
-                              {safra.culturas.length === 0 ? (
-                                <Tag>sem culturas</Tag>
-                              ) : (
-                                safra.culturas.map((cultura) => (
-                                  <Tag key={cultura.id}>{cultura.nome}</Tag>
-                                ))
-                              )}
-                            </SafraGrupo>
-                          ))}
-                        </SafrasFlow>
-                      )}
-                    </PropriedadeCard>
-                  );
-                })}
-              </ListaPropriedades>
-            )}
-
-            <LinkGerenciar to={`/propriedades?produtorId=${produtor.id}`}>
-              Gerenciar propriedades deste produtor
-              <ArrowUpRight size={14} />
-            </LinkGerenciar>
-          </Content>
-        </Layout>
+              <LinkGerenciar to={`/propriedades?produtorId=${produtor.id}`}>
+                Gerenciar propriedades deste produtor
+                <ArrowUpRight size={14} />
+              </LinkGerenciar>
+            </Content>
+          </Layout>
+        </>
       )}
 
-      <Modal open={editarAberto} onClose={() => setEditarAberto(false)} title="Editar produtor">
+      <Modal
+        open={editarAberto}
+        onClose={() => setEditarAberto(false)}
+        title="Editar produtor"
+      >
         {produtor && (
           <ProdutorForm
-            initialValues={{ documento: produtor.documento, nome: produtor.nome }}
+            initialValues={{
+              documento: produtor.documento,
+              nome: produtor.nome,
+            }}
             onSubmit={handleEditar}
             submitLabel="Salvar alterações"
           />
         )}
       </Modal>
 
-      <Modal open={removerAberto} onClose={() => setRemoverAberto(false)} title="Remover produtor">
+      <Modal
+        open={removerAberto}
+        onClose={() => setRemoverAberto(false)}
+        title="Remover produtor"
+      >
         {produtor && (
           <>
             <ConfirmText>
-              Tem certeza que deseja remover <strong>{produtor.nome}</strong>? Essa ação também
-              remove todas as propriedades, safras e culturas vinculadas a ele, e não pode ser
-              desfeita.
+              Tem certeza que deseja remover <strong>{produtor.nome}</strong>?
+              Essa ação também remove todas as propriedades, safras e culturas
+              vinculadas a ele, e não pode ser desfeita.
             </ConfirmText>
             <ConfirmActions>
-              <Button $variant="secondary" onClick={() => setRemoverAberto(false)}>
+              <Button
+                $variant="secondary"
+                onClick={() => setRemoverAberto(false)}
+              >
                 Cancelar
               </Button>
-              <Button $variant="danger" onClick={handleConfirmarRemocao} disabled={removendo}>
-                {removendo ? 'Removendo...' : 'Remover'}
+              <Button
+                $variant="danger"
+                onClick={handleConfirmarRemocao}
+                disabled={removendo}
+              >
+                {removendo ? "Removendo..." : "Remover"}
               </Button>
             </ConfirmActions>
           </>
