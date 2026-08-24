@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Plus } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
@@ -35,6 +36,7 @@ const ConfirmActions = styled.div`
 export function ProdutoresPage() {
   const dispatch = useAppDispatch();
   const { itens, carregando, usandoMock } = useAppSelector((state) => state.produtores);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [criarAberto, setCriarAberto] = useState(false);
   const [produtorEditando, setProdutorEditando] = useState<Produtor | null>(null);
@@ -44,6 +46,20 @@ export function ProdutoresPage() {
   useEffect(() => {
     dispatch(buscarProdutores());
   }, [dispatch]);
+
+  // Acesso rápido do Dashboard leva pra cá com ?novo=1 já pedindo pra
+  // abrir o modal de criação, poupando um clique extra.
+  useEffect(() => {
+    if (searchParams.get('novo') === '1') {
+      setCriarAberto(true);
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev);
+        next.delete('novo');
+        return next;
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function handleCriar(dados: { documento: string; nome: string }) {
     // .unwrap() propaga o erro do backend — sem isso o modal fechava mesmo na falha.

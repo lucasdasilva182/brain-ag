@@ -82,6 +82,18 @@ export function PropriedadesPage() {
     dispatch(buscarProdutores());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (searchParams.get('novo') === '1') {
+      setCriarAberto(true);
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev);
+        next.delete('novo');
+        return next;
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   function nomeDoProdutor(produtorId: string): string {
     return produtores.find((p) => p.id === produtorId)?.nome ?? 'Produtor não encontrado';
   }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Plus } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
@@ -39,10 +40,23 @@ export function SafrasPage() {
   const dispatch = useAppDispatch();
   const { itens: safras, carregando, usandoMock } = useAppSelector((state) => state.safras);
   const { itens: propriedades } = useAppSelector((state) => state.propriedades);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [criarAberto, setCriarAberto] = useState(false);
   const [safraRemovendo, setSafraRemovendo] = useState<Safra | null>(null);
   const [removendo, setRemovendo] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get('novo') === '1') {
+      setCriarAberto(true);
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev);
+        next.delete('novo');
+        return next;
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     dispatch(buscarSafras());
