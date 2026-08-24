@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import type { Produtor } from '../../types/domain';
-import { formatarDocumento, formatarHectares } from '../../utils/format';
-import { Button } from '../atoms/Button';
-import { DataTable } from '../molecules/DataTable';
-import type { DataTableColumn } from '../molecules/DataTable';
+import type { Produtor } from '../../../types/domain';
+import { formatarDocumento, formatarHectares } from '../../../utils/format';
+import { Button } from '../../atoms/Button';
+import { DataTable } from '../../molecules/DataTable';
+import type { DataTableColumn } from '../../molecules/DataTable';
 
 const Acoes = styled.div`
   display: flex;

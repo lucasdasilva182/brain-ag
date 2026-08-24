@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import styled from 'styled-components';
-import { Label, Input, ErrorText } from '../atoms/Input';
-import { Button } from '../atoms/Button';
+import { Label, Input, ErrorText } from '../../atoms/Input';
+import { Button } from '../../atoms/Button';
 
 const Form = styled.form`
   display: flex;

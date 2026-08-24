@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/react';
-import { renderWithTheme } from '../../../test-utils/renderWithTheme';
+import { renderWithTheme } from '../../../../test-utils/renderWithTheme';
 import { ProdutorForm } from '../ProdutorForm';
 
 describe('ProdutorForm', () => {
@@ -27,8 +27,6 @@ describe('ProdutorForm', () => {
     await user.click(screen.getByRole('button', { name: /cadastrar produtor/i }));
 
     expect(onSubmit).not.toHaveBeenCalled();
-    expect(
-      screen.getByText('Preencha o documento e o nome do produtor'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Preencha o documento e o nome do produtor')).toBeInTheDocument();
   });
 });

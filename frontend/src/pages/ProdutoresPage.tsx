@@ -7,8 +7,8 @@ import {
   editarProdutor,
   removerProdutor,
 } from '../store/slices/produtoresSlice';
-import { ProdutorForm } from '../components/organisms/ProdutorForm';
-import { ProdutorList } from '../components/organisms/ProdutorList';
+import { ProdutorForm } from '../components/organisms/produtores/ProdutorForm';
+import { ProdutorList } from '../components/organisms/produtores/ProdutorList';
 import { Card, CardTitle } from '../components/atoms/Card';
 import { Button } from '../components/atoms/Button';
 import { Modal } from '../components/molecules/Modal';
