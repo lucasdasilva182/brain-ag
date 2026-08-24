@@ -25,6 +25,75 @@ Cada pasta tem seu próprio README com instruções detalhadas de instalação, 
 
 **Frontend:** React, TypeScript, Redux Toolkit, styled-components, Recharts, Jest + React Testing Library, Atomic Design.
 
+## Arquitetura
+
+### Visão geral do sistema
+
+```mermaid
+flowchart TB
+    subgraph Cliente["Navegador"]
+        FE["Frontend<br/>React + TypeScript + Redux Toolkit<br/>Vite · porta 5173"]
+    end
+
+    subgraph Servidor["Servidor (Docker)"]
+        BE["API REST<br/>NestJS + TypeScript<br/>porta 3000"]
+        DB[("PostgreSQL<br/>via Prisma ORM")]
+    end
+
+    FE -- "HTTP / JSON (axios)" --> BE
+    BE -- "SQL (Prisma Client)" --> DB
+    BE -.->|"/docs — Swagger"| FE
+    BE -.->|"/health — status"| Orq["Orquestrador<br/>(Docker / monitoramento)"]
+```
+
+### Modelo de domínio
+
+Um produtor pode ter várias propriedades; cada propriedade pode ter várias safras; cada safra pode ter várias culturas plantadas.
+
+```mermaid
+erDiagram
+    PRODUTOR ||--o{ PROPRIEDADE : possui
+    PROPRIEDADE ||--o{ SAFRA : tem
+    SAFRA ||--o{ CULTURA_PLANTADA : contem
+
+    PRODUTOR {
+        uuid id
+        string documento "CPF ou CNPJ, único"
+        string nome
+    }
+    PROPRIEDADE {
+        uuid id
+        string nome
+        string cidade
+        string estado
+        float areaTotal
+        float areaAgricultavel
+        float areaVegetacao
+    }
+    SAFRA {
+        uuid id
+        int ano
+    }
+    CULTURA_PLANTADA {
+        uuid id
+        string nome
+    }
+```
+
+### Fluxo de uma requisição no backend (arquitetura em camadas)
+
+```mermaid
+flowchart LR
+    Req["Requisição HTTP"] --> VP["ValidationPipe<br/>valida o DTO"]
+    VP --> Ctrl["Controller<br/>define a rota"]
+    Ctrl --> Svc["Service<br/>regra de negócio"]
+    Svc --> Prisma["PrismaService<br/>acesso a dados"]
+    Prisma --> DB[("PostgreSQL")]
+    Svc --> Resp["Resposta JSON"]
+```
+
+Cada camada tem uma única responsabilidade — o Controller não sabe de regra de negócio, o Service não sabe de HTTP, e o Prisma não sabe de nenhum dos dois. Essa separação é o que permite testar a regra de área (`validarAreas`) e a validação de CPF/CNPJ isoladamente, sem precisar de banco nem de requisição HTTP real.
+
 ## Funcionalidades
 
 - Cadastro, edição e remoção de produtores rurais, com validação de CPF/CNPJ.
