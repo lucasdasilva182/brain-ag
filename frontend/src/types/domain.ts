@@ -44,6 +44,13 @@ export type CreatePropriedadePayload = Pick<
   | 'produtorId'
 >;
 
+// Assim como no backend (UpdatePropriedadeDto), não permitimos trocar o
+// produtorId numa atualização — se precisar mudar o dono, o correto é
+// excluir e recriar a propriedade.
+export type UpdatePropriedadePayload = Partial<
+  Omit<CreatePropriedadePayload, 'produtorId'>
+>;
+
 export interface DashboardResumo {
   totalFazendas: number;
   totalHectares: number;
