@@ -28,13 +28,16 @@ export function PieChartCard({ titulo, dados }: PieChartCardProps) {
               cx="50%"
               cy="50%"
               outerRadius={80}
-              label={(entry: { name?: string }) => entry.name}
             >
               {dados.map((entrada, index) => (
                 <Cell key={entrada.label} fill={CORES[index % CORES.length]} />
               ))}
             </Pie>
-            <Tooltip />
+            <Tooltip
+              contentStyle={{ background: '#212120', border: '1px solid #34342F' }}
+              labelStyle={{ color: '#F3F3F0' }}
+              itemStyle={{ color: '#F3F3F0' }}
+            />
             <Legend wrapperStyle={{ color: '#F3F3F0', fontSize: 13 }} />
           </PieChart>
         </ResponsiveContainer>
