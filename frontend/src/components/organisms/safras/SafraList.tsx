@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { Trash2 } from 'lucide-react';
 import type { Safra } from '../../../types/domain';
 import { Button } from '../../atoms/Button';
 import { Input } from '../../atoms/Input';
@@ -137,6 +138,7 @@ export function SafraList({
       render: (s) => (
         <Acoes>
           <Button $variant="danger" onClick={() => onRemoverSafra(s)}>
+            <Trash2 size={14} />
             Remover
           </Button>
         </Acoes>

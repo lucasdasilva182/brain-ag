@@ -3,6 +3,9 @@ import styled, { css } from 'styled-components';
 type Variant = 'primary' | 'secondary' | 'danger';
 
 export const Button = styled.button<{ $variant?: Variant }>`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-family: ${({ theme }) => theme.font.body};
   font-size: 14px;
   font-weight: 600;

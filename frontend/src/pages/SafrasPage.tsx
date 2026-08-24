@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Plus } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { buscarPropriedades } from '../store/slices/propriedadesSlice';
 import {
@@ -96,6 +97,7 @@ export function SafrasPage() {
 
       <Toolbar>
         <Button onClick={() => setCriarAberto(true)} disabled={propriedades.length === 0}>
+          <Plus size={16} />
           Nova safra
         </Button>
       </Toolbar>

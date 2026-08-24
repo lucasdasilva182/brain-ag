@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { X, Plus } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { buscarProdutores } from '../store/slices/produtoresSlice';
 import {
@@ -33,12 +35,41 @@ const ConfirmActions = styled.div`
   gap: ${({ theme }) => theme.spacing(3)};
 `;
 
+const FiltroChip = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(2)};
+  align-self: flex-start;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: ${({ theme }) => theme.colors.surfaceRaised};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+const LimparFiltro = styled.button`
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.colors.textMuted};
+  cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.danger};
+  }
+`;
+
 export function PropriedadesPage() {
   const dispatch = useAppDispatch();
   const { itens: propriedades, carregando, usandoMock } = useAppSelector(
     (state) => state.propriedades,
   );
   const { itens: produtores } = useAppSelector((state) => state.produtores);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const produtorIdFiltro = searchParams.get('produtorId');
 
   const [criarAberto, setCriarAberto] = useState(false);
   const [propriedadeEditando, setPropriedadeEditando] = useState<Propriedade | null>(null);
@@ -54,6 +85,10 @@ export function PropriedadesPage() {
   function nomeDoProdutor(produtorId: string): string {
     return produtores.find((p) => p.id === produtorId)?.nome ?? 'Produtor não encontrado';
   }
+
+  const propriedadesFiltradas = produtorIdFiltro
+    ? propriedades.filter((p) => p.produtorId === produtorIdFiltro)
+    : propriedades;
 
   async function handleCriar(dados: PropriedadeFormValues) {
     await dispatch(criarPropriedade(dados)).unwrap();
@@ -90,9 +125,22 @@ export function PropriedadesPage() {
 
       <Toolbar>
         <Button onClick={() => setCriarAberto(true)} disabled={produtores.length === 0}>
+          <Plus size={16} />
           Nova propriedade
         </Button>
       </Toolbar>
+
+      {produtorIdFiltro && (
+        <FiltroChip>
+          Filtrando por: <strong>{nomeDoProdutor(produtorIdFiltro)}</strong>
+          <LimparFiltro
+            onClick={() => setSearchParams({})}
+            aria-label="Limpar filtro de produtor"
+          >
+            <X size={14} />
+          </LimparFiltro>
+        </FiltroChip>
+      )}
 
       {produtores.length === 0 && !carregando && (
         <p style={{ fontSize: 13, color: '#9A9A93' }}>
@@ -106,7 +154,7 @@ export function PropriedadesPage() {
           <p>Carregando...</p>
         ) : (
           <PropriedadeList
-            propriedades={propriedades}
+            propriedades={propriedadesFiltradas}
             nomeDoProdutor={nomeDoProdutor}
             onEditar={setPropriedadeEditando}
             onRemover={setPropriedadeRemovendo}

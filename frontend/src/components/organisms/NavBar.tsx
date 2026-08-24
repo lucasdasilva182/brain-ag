@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import { LayoutDashboard, Users, MapPin, Sprout } from 'lucide-react';
 import { Logo } from '../atoms/Logo';
 
 const BREAKPOINT_MOBILE = '640px';
@@ -84,6 +85,9 @@ const Links = styled.div<{ $open: boolean }>`
 `;
 
 const StyledNavLink = styled(NavLink)`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-family: ${({ theme }) => theme.font.body};
   font-size: 14px;
   font-weight: 600;
@@ -124,15 +128,19 @@ export function NavBar() {
 
         <Links $open={menuAberto}>
           <StyledNavLink to="/" end onClick={() => setMenuAberto(false)}>
+            <LayoutDashboard size={16} />
             Dashboard
           </StyledNavLink>
           <StyledNavLink to="/produtores" onClick={() => setMenuAberto(false)}>
+            <Users size={16} />
             Produtores
           </StyledNavLink>
           <StyledNavLink to="/propriedades" onClick={() => setMenuAberto(false)}>
+            <MapPin size={16} />
             Propriedades
           </StyledNavLink>
           <StyledNavLink to="/safras" onClick={() => setMenuAberto(false)}>
+            <Sprout size={16} />
             Safras
           </StyledNavLink>
         </Links>

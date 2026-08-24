@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Pencil, Trash2 } from 'lucide-react';
 import type { Propriedade } from '../../../types/domain';
 import { formatarHectares } from '../../../utils/format';
 import { Button } from '../../atoms/Button';
@@ -34,9 +35,11 @@ export function PropriedadeList({
       render: (p) => (
         <Acoes>
           <Button $variant="secondary" onClick={() => onEditar(p)}>
+            <Pencil size={14} />
             Editar
           </Button>
           <Button $variant="danger" onClick={() => onRemover(p)}>
+            <Trash2 size={14} />
             Remover
           </Button>
         </Acoes>

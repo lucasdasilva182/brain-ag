@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Plus } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import {
   buscarProdutores,
@@ -76,7 +77,10 @@ export function ProdutoresPage() {
       )}
 
       <Toolbar>
-        <Button onClick={() => setCriarAberto(true)}>Novo produtor</Button>
+        <Button onClick={() => setCriarAberto(true)}>
+          <Plus size={16} />
+          Novo produtor
+        </Button>
       </Toolbar>
 
       <Card>
