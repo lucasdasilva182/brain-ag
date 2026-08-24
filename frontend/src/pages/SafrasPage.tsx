@@ -43,20 +43,28 @@ export function SafrasPage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [criarAberto, setCriarAberto] = useState(false);
+  const [propriedadeFixaId, setPropriedadeFixaId] = useState<string | null>(null);
   const [safraRemovendo, setSafraRemovendo] = useState<Safra | null>(null);
   const [removendo, setRemovendo] = useState(false);
 
   useEffect(() => {
     if (searchParams.get('novo') === '1') {
       setCriarAberto(true);
+      setPropriedadeFixaId(searchParams.get('propriedadeId'));
       setSearchParams((prev) => {
         const next = new URLSearchParams(prev);
         next.delete('novo');
+        next.delete('propriedadeId');
         return next;
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function fecharModalCriar() {
+    setCriarAberto(false);
+    setPropriedadeFixaId(null);
+  }
 
   useEffect(() => {
     dispatch(buscarSafras());
@@ -77,7 +85,7 @@ export function SafrasPage() {
         culturas: dados.culturas.map((nome) => ({ nome })),
       }),
     ).unwrap();
-    setCriarAberto(false);
+    fecharModalCriar();
   }
 
   // Ações de cultura são rápidas e reversíveis: sem .unwrap(), diferente
@@ -137,9 +145,14 @@ export function SafrasPage() {
         )}
       </Card>
 
-      <Modal open={criarAberto} onClose={() => setCriarAberto(false)} title="Cadastrar safra">
+      <Modal open={criarAberto} onClose={fecharModalCriar} title="Cadastrar safra">
         <SafraForm
           propriedadeOptions={propriedades.map((p) => ({ id: p.id, nome: p.nome }))}
+          propriedadeFixa={
+            propriedadeFixaId
+              ? { id: propriedadeFixaId, nome: nomeDaPropriedade(propriedadeFixaId) }
+              : undefined
+          }
           onSubmit={handleCriar}
         />
       </Modal>

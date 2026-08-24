@@ -65,11 +65,12 @@ export interface SafraFormValues {
 
 interface SafraFormProps {
   propriedadeOptions: PropriedadeOption[];
+  propriedadeFixa?: PropriedadeOption;
   onSubmit: (dados: SafraFormValues) => Promise<void> | void;
 }
 
-export function SafraForm({ propriedadeOptions, onSubmit }: SafraFormProps) {
-  const [propriedadeId, setPropriedadeId] = useState('');
+export function SafraForm({ propriedadeOptions, propriedadeFixa, onSubmit }: SafraFormProps) {
+  const [propriedadeId, setPropriedadeId] = useState(propriedadeFixa?.id ?? '');
   const [ano, setAno] = useState(String(new Date().getFullYear()));
   const [culturas, setCulturas] = useState<string[]>([]);
   const [novaCultura, setNovaCultura] = useState('');
@@ -100,7 +101,7 @@ export function SafraForm({ propriedadeOptions, onSubmit }: SafraFormProps) {
 
     try {
       await onSubmit({ propriedadeId, ano: Number(ano), culturas });
-      setPropriedadeId('');
+      if (!propriedadeFixa) setPropriedadeId('');
       setAno(String(new Date().getFullYear()));
       setCulturas([]);
     } catch (erroCapturado) {
@@ -116,18 +117,22 @@ export function SafraForm({ propriedadeOptions, onSubmit }: SafraFormProps) {
     <Form onSubmit={handleSubmit}>
       <Campo>
         <Label htmlFor="propriedadeId">Propriedade</Label>
-        <Select
-          id="propriedadeId"
-          value={propriedadeId}
-          onChange={(e) => setPropriedadeId(e.target.value)}
-        >
-          <option value="">Selecione uma propriedade</option>
-          {propriedadeOptions.map((propriedade) => (
-            <option key={propriedade.id} value={propriedade.id}>
-              {propriedade.nome}
-            </option>
-          ))}
-        </Select>
+        {propriedadeFixa ? (
+          <Input value={propriedadeFixa.nome} disabled />
+        ) : (
+          <Select
+            id="propriedadeId"
+            value={propriedadeId}
+            onChange={(e) => setPropriedadeId(e.target.value)}
+          >
+            <option value="">Selecione uma propriedade</option>
+            {propriedadeOptions.map((propriedade) => (
+              <option key={propriedade.id} value={propriedade.id}>
+                {propriedade.nome}
+              </option>
+            ))}
+          </Select>
+        )}
       </Campo>
 
       <Campo>

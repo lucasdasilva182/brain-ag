@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Pencil, Trash2 } from 'lucide-react';
+import { Pencil, Trash2, Sprout } from 'lucide-react';
 import type { Propriedade } from '../../../types/domain';
 import { formatarHectares } from '../../../utils/format';
 import { Button } from '../../atoms/Button';
@@ -16,6 +16,7 @@ interface PropriedadeListProps {
   nomeDoProdutor: (produtorId: string) => string;
   onEditar: (propriedade: Propriedade) => void;
   onRemover: (propriedade: Propriedade) => void;
+  onNovaSafra: (propriedade: Propriedade) => void;
 }
 
 export function PropriedadeList({
@@ -23,6 +24,7 @@ export function PropriedadeList({
   nomeDoProdutor,
   onEditar,
   onRemover,
+  onNovaSafra,
 }: PropriedadeListProps) {
   const colunas: DataTableColumn<Propriedade>[] = [
     { key: 'nome', label: 'Fazenda', render: (p) => p.nome },
@@ -34,6 +36,10 @@ export function PropriedadeList({
       label: '',
       render: (p) => (
         <Acoes>
+          <Button $variant="secondary" onClick={() => onNovaSafra(p)}>
+            <Sprout size={14} />
+            Nova safra
+          </Button>
           <Button $variant="secondary" onClick={() => onEditar(p)}>
             <Pencil size={14} />
             Editar

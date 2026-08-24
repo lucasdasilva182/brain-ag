@@ -13,6 +13,7 @@ describe('PropriedadeList', () => {
         nomeDoProdutor={nomeDoProdutor}
         onEditar={jest.fn()}
         onRemover={jest.fn()}
+        onNovaSafra={jest.fn()}
       />,
     );
     expect(screen.getByText('Nenhuma propriedade cadastrada ainda.')).toBeInTheDocument();
@@ -25,6 +26,7 @@ describe('PropriedadeList', () => {
         nomeDoProdutor={nomeDoProdutor}
         onEditar={jest.fn()}
         onRemover={jest.fn()}
+        onNovaSafra={jest.fn()}
       />,
     );
 
@@ -40,6 +42,7 @@ describe('PropriedadeList', () => {
         nomeDoProdutor={nomeDoProdutor}
         onEditar={onEditar}
         onRemover={jest.fn()}
+        onNovaSafra={jest.fn()}
       />,
     );
 
@@ -56,11 +59,29 @@ describe('PropriedadeList', () => {
         nomeDoProdutor={nomeDoProdutor}
         onEditar={jest.fn()}
         onRemover={onRemover}
+        onNovaSafra={jest.fn()}
       />,
     );
 
     fireEvent.click(screen.getAllByRole('button', { name: /remover/i })[0]);
 
     expect(onRemover).toHaveBeenCalledWith(propriedadesMock[0]);
+  });
+
+  it('chama onNovaSafra com a propriedade correta ao clicar em Nova safra', () => {
+    const onNovaSafra = jest.fn();
+    renderWithTheme(
+      <PropriedadeList
+        propriedades={propriedadesMock}
+        nomeDoProdutor={nomeDoProdutor}
+        onEditar={jest.fn()}
+        onRemover={jest.fn()}
+        onNovaSafra={onNovaSafra}
+      />,
+    );
+
+    fireEvent.click(screen.getAllByRole('button', { name: /nova safra/i })[0]);
+
+    expect(onNovaSafra).toHaveBeenCalledWith(propriedadesMock[0]);
   });
 });

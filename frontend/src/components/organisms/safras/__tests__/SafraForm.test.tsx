@@ -61,4 +61,41 @@ describe('SafraForm', () => {
       screen.getByText('Selecione a propriedade e informe o ano da safra'),
     ).toBeInTheDocument();
   });
+
+  it('não exibe o seletor de propriedade quando propriedadeFixa é passada', () => {
+    renderWithTheme(
+      <SafraForm
+        propriedadeOptions={propriedadeOptions}
+        propriedadeFixa={{ id: 'prop1', nome: 'Fazenda Boa Vista' }}
+        onSubmit={jest.fn()}
+      />,
+    );
+
+    expect(screen.queryByLabelText('Propriedade')).not.toBeInTheDocument();
+    expect(screen.getByDisplayValue('Fazenda Boa Vista')).toBeDisabled();
+  });
+
+  it('envia o id da propriedadeFixa mesmo sem seletor visível', async () => {
+    const user = userEvent.setup();
+    const onSubmit = jest.fn();
+    renderWithTheme(
+      <SafraForm
+        propriedadeOptions={propriedadeOptions}
+        propriedadeFixa={{ id: 'prop1', nome: 'Fazenda Boa Vista' }}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    const inputAno = screen.getByLabelText('Ano da safra');
+    await user.clear(inputAno);
+    await user.type(inputAno, '2023');
+
+    await user.click(screen.getByRole('button', { name: /cadastrar safra/i }));
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      propriedadeId: 'prop1',
+      ano: 2023,
+      culturas: [],
+    });
+  });
 });

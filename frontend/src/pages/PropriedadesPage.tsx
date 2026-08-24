@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { X, Plus } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
@@ -64,6 +64,7 @@ const LimparFiltro = styled.button`
 
 export function PropriedadesPage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { itens: propriedades, carregando, usandoMock } = useAppSelector(
     (state) => state.propriedades,
   );
@@ -96,6 +97,10 @@ export function PropriedadesPage() {
 
   function nomeDoProdutor(produtorId: string): string {
     return produtores.find((p) => p.id === produtorId)?.nome ?? 'Produtor não encontrado';
+  }
+
+  function handleNovaSafra(propriedade: Propriedade) {
+    navigate(`/safras?novo=1&propriedadeId=${propriedade.id}`);
   }
 
   const propriedadesFiltradas = produtorIdFiltro
@@ -170,6 +175,7 @@ export function PropriedadesPage() {
             nomeDoProdutor={nomeDoProdutor}
             onEditar={setPropriedadeEditando}
             onRemover={setPropriedadeRemovendo}
+            onNovaSafra={handleNovaSafra}
           />
         )}
       </Card>
