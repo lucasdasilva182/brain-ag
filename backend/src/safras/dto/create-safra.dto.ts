@@ -5,6 +5,7 @@ import {
   IsArray,
   IsInt,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Min,
   ValidateNested,
@@ -32,8 +33,10 @@ export class CreateSafraDto {
     type: [CulturaDto],
     example: [{ nome: 'Soja' }, { nome: 'Milho' }],
     required: false,
-    description: 'Culturas plantadas já cadastradas junto com a safra (opcional)',
+    description:
+      'Culturas plantadas já cadastradas junto com a safra (opcional)',
   })
+  @IsOptional()
   @IsArray()
   @ArrayMinSize(0)
   @ValidateNested({ each: true })
