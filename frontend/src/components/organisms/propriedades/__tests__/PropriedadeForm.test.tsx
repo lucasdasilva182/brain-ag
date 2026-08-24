@@ -14,7 +14,7 @@ describe('PropriedadeForm', () => {
     await user.selectOptions(screen.getByLabelText('Produtor'), 'p1');
     await user.type(screen.getByLabelText('Nome da fazenda'), 'Fazenda Teste');
     await user.type(screen.getByLabelText('Cidade'), 'Uberlândia');
-    await user.type(screen.getByLabelText('Estado (UF)'), 'MG');
+    await user.selectOptions(screen.getByLabelText('Estado (UF)'), 'MG');
     await user.type(screen.getByLabelText('Área total (ha)'), '100');
     await user.type(screen.getByLabelText('Agricultável (ha)'), '60');
     await user.type(screen.getByLabelText('Vegetação (ha)'), '40');

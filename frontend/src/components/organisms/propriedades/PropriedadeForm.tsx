@@ -3,6 +3,7 @@ import type { FormEvent } from 'react';
 import styled from 'styled-components';
 import { Label, Input, Select, ErrorText } from '../../atoms/Input';
 import { Button } from '../../atoms/Button';
+import { ESTADOS_BRASILEIROS } from '../../../constants/estados-brasileiros';
 
 const Form = styled.form`
   display: flex;
@@ -70,9 +71,7 @@ export function PropriedadeForm({
   const [areaAgricultavel, setAreaAgricultavel] = useState(
     String(valoresIniciais.areaAgricultavel || ''),
   );
-  const [areaVegetacao, setAreaVegetacao] = useState(
-    String(valoresIniciais.areaVegetacao || ''),
-  );
+  const [areaVegetacao, setAreaVegetacao] = useState(String(valoresIniciais.areaVegetacao || ''));
   const [erro, setErro] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
 
@@ -112,9 +111,7 @@ export function PropriedadeForm({
         if (!produtorFixo) setProdutorId('');
       }
     } catch (erroCapturado) {
-      setErro(
-        erroCapturado instanceof Error ? erroCapturado.message : String(erroCapturado),
-      );
+      setErro(erroCapturado instanceof Error ? erroCapturado.message : String(erroCapturado));
     } finally {
       setEnviando(false);
     }
@@ -157,13 +154,14 @@ export function PropriedadeForm({
         </Campo>
         <Campo>
           <Label htmlFor="estado">Estado (UF)</Label>
-          <Input
-            id="estado"
-            value={estado}
-            maxLength={2}
-            onChange={(e) => setEstado(e.target.value)}
-            placeholder="MG"
-          />
+          <Select id="estado" value={estado} onChange={(e) => setEstado(e.target.value)}>
+            <option value="">Selecione</option>
+            {ESTADOS_BRASILEIROS.map((estadoBr) => (
+              <option key={estadoBr.uf} value={estadoBr.uf}>
+                {estadoBr.nome} ({estadoBr.uf})
+              </option>
+            ))}
+          </Select>
         </Campo>
       </Linha>
 
