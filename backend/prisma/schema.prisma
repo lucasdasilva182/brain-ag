@@ -23,9 +23,9 @@ model Propriedade {
   nome              String   // nome da fazenda
   cidade            String
   estado            String   // sigla, ex: SP, MG
-  areaTotal         Decimal  @db.Decimal(12, 2)
-  areaAgricultavel  Decimal  @db.Decimal(12, 2)
-  areaVegetacao     Decimal  @db.Decimal(12, 2)
+  areaTotal         Float
+  areaAgricultavel  Float
+  areaVegetacao     Float
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
