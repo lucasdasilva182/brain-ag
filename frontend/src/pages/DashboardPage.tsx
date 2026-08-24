@@ -13,7 +13,7 @@ const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: ${({ theme }) => theme.spacing(4)};
-  margin-bottom: ${({ theme }) => theme.spacing(6)};
+  margin-bottom: ${({ theme }) => theme.spacing(4)};
 `;
 
 const GridGraficos = styled.div`
@@ -40,7 +40,9 @@ const AtalhoLink = styled(Link)`
   text-decoration: none;
   font-size: 14px;
   font-weight: 600;
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
@@ -76,7 +78,7 @@ export function DashboardPage() {
         <StatCard valor={formatarHectares(resumo.totalHectares)} rotulo="Área total registrada" />
       </Grid>
 
-      <Card style={{ marginBottom: 24 }}>
+      <Card style={{ marginBottom: 16 }}>
         <CardTitle>Acesso rápido</CardTitle>
         <AcessoRapido>
           <AtalhoLink to="/produtores?novo=1">

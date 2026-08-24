@@ -25,7 +25,7 @@ const VoltarLink = styled(Link)`
 `;
 
 const Header = styled.div`
-  margin-bottom: ${({ theme }) => theme.spacing(6)};
+  margin-bottom: ${({ theme }) => theme.spacing(4)};
 `;
 
 const Nome = styled.h2`
@@ -45,7 +45,7 @@ const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: ${({ theme }) => theme.spacing(4)};
-  margin-bottom: ${({ theme }) => theme.spacing(6)};
+  margin-bottom: ${({ theme }) => theme.spacing(4)};
 `;
 
 const LinkGerenciar = styled(Link)`
@@ -108,10 +108,7 @@ export function ProdutorDetalhePage() {
 
           <Grid>
             <StatCard valor={String(produtor.propriedades.length)} rotulo="Propriedades" />
-            <StatCard
-              valor={formatarHectares(areaTotalDoProdutor(produtor))}
-              rotulo="Área total"
-            />
+            <StatCard valor={formatarHectares(areaTotalDoProdutor(produtor))} rotulo="Área total" />
           </Grid>
 
           <Card>
