@@ -7,6 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = new Logger('Bootstrap');
 
+  // Valida todo DTO automaticamente antes do controller rodar.
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, // remove campos que não estão no DTO
@@ -32,4 +33,8 @@ async function bootstrap() {
   logger.log(`Aplicação rodando em http://localhost:${port}`);
   logger.log(`Documentação Swagger em http://localhost:${port}/docs`);
 }
-bootstrap();
+bootstrap().catch((erro: unknown) => {
+  // eslint-disable-next-line no-console
+  console.error('Falha ao iniciar a aplicação:', erro);
+  process.exit(1);
+});
