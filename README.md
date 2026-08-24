@@ -18,8 +18,8 @@ Cada pasta tem seu próprio README com instruções detalhadas de instalação, 
 
 ## Deploy
 
-- **Frontend**: [\[URL da Vercel\]](https://brain-ag-five.vercel.app/)
-- **Backend**: [\[URL da Render\]](https://brain-ag-koiu.onrender.com) — documentação Swagger em
+- **Frontend**: [https://brain-ag-five.vercel.app/](https://brain-ag-five.vercel.app/)
+- **Backend**: [https://brain-ag-koiu.onrender.com](https://brain-ag-koiu.onrender.com) — documentação Swagger em
   `/docs`, health check em `/health`
 
 > O backend está no plano gratuito da Render, que "dorme" após 15 minutos sem uso — a primeira
